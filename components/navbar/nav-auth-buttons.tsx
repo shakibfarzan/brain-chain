@@ -9,7 +9,7 @@ const NavAuthButtons: React.FC = () => {
   const { push } = useRouter();
 
   return (
-    <>
+    <div className="gap-2 sm:flex hidden">
       <Button
         color="primary"
         variant="light"
@@ -25,7 +25,7 @@ const NavAuthButtons: React.FC = () => {
       >
         Sign up
       </Button>
-    </>
+    </div>
   );
 };
 

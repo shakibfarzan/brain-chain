@@ -1,28 +1,30 @@
 "use client";
 import React from "react";
-import { NavbarContent, NavbarItem } from "@nextui-org/navbar";
+import { NavbarMenu, NavbarMenuItem } from "@nextui-org/navbar";
 import { Link } from "@nextui-org/link";
 
 import { siteConfig } from "@/config/site";
 import { useIsCurrentPath } from "@/hooks";
 
-const NavItems: React.FC = () => {
+const NavMenu: React.FC = () => {
   const isCurrentPath = useIsCurrentPath();
 
   return (
-    <NavbarContent className="hidden sm:flex gap-4" justify="center">
-      {siteConfig.navItems.map(({ label, href }) => (
-        <NavbarItem key={label} isActive={isCurrentPath(href)}>
+    <NavbarMenu>
+      {siteConfig.navItems.map(({ href, label }) => (
+        <NavbarMenuItem key={label}>
           <Link
+            className="w-full"
             color={isCurrentPath(href) ? "primary" : "foreground"}
-            href={href}
+            href="#"
+            size="lg"
           >
             {label}
           </Link>
-        </NavbarItem>
+        </NavbarMenuItem>
       ))}
-    </NavbarContent>
+    </NavbarMenu>
   );
 };
 
-export default NavItems;
+export default NavMenu;
