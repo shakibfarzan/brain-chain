@@ -1,27 +1,14 @@
-"use client";
 import React from "react";
 import { NavbarMenu, NavbarMenuItem } from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
 
 import { siteConfig } from "@/config/site";
-import { useIsCurrentPath } from "@/hooks";
+import NavLink from "@/components/navbar/nav-link";
 
 const NavMenu: React.FC = () => {
-  const isCurrentPath = useIsCurrentPath();
-
   return (
-    <NavbarMenu>
-      {siteConfig.navItems.map(({ href, label }) => (
-        <NavbarMenuItem key={label}>
-          <Link
-            className="w-full"
-            color={isCurrentPath(href) ? "primary" : "foreground"}
-            href="#"
-            size="lg"
-          >
-            {label}
-          </Link>
-        </NavbarMenuItem>
+    <NavbarMenu className="!h-full">
+      {siteConfig.navItems.map((ni) => (
+        <NavLink {...ni} key={ni.label} WrapperComponent={NavbarMenuItem} />
       ))}
     </NavbarMenu>
   );
