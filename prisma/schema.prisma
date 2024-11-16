@@ -12,3 +12,97 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id              String            @id @default(cuid())
+  username        String            @unique
+  email           String            @unique
+  password        String
+  bio             String? // Optional
+  profileImage    String? // URL to profile image
+  reputation      Int               @default(0)
+  isAdmin         Boolean           @default(false)
+  questions       Question[]
+  answers         Answer[]
+  comments        Comment[]
+  votes           Vote[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  ReportedContent ReportedContent[]
+}
+
+model Question {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  tags        Tag[]     @relation()
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  answers     Answer[]
+  comments    Comment[]
+  votes       Vote[]
+  views       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  ReportedContent ReportedContent[]
+}
+
+model Answer {
+  id         String    @id @default(cuid())
+  content    String
+  questionId String
+  question   Question  @relation(fields: [questionId], references: [id])
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  isAccepted Boolean   @default(false)
+  votes      Vote[]
+  comments   Comment[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  ReportedContent ReportedContent[]
+}
+
+model Tag {
+  id       String     @id @default(cuid())
+  name     String     @unique
+  Question Question[]
+}
+
+model Comment {
+  id         String    @id @default(cuid())
+  content    String
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  questionId String? // Optional for question comments
+  question   Question? @relation(fields: [questionId], references: [id])
+  answerId   String? // Optional for answer comments
+  answer     Answer?   @relation(fields: [answerId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Vote {
+  id         String    @id @default(cuid())
+  value      Int // +1 for upvote, -1 for downvote
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  questionId String? // Optional for question votes
+  question   Question? @relation(fields: [questionId], references: [id])
+  answerId   String? // Optional for answer votes
+  answer     Answer?   @relation(fields: [answerId], references: [id])
+  createdAt  DateTime  @default(now())
+}
+
+model ReportedContent {
+  id         String    @id @default(cuid())
+  reason     String
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  questionId String? // Optional
+  question   Question? @relation(fields: [questionId], references: [id])
+  answerId   String? // Optional
+  answer     Answer?   @relation(fields: [answerId], references: [id])
+  createdAt  DateTime  @default(now())
+}
