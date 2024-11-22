@@ -27,8 +27,8 @@ const usernameSchema = z
 const emailSchema = z
   .string()
   .trim()
-  .email()
   .min(5, { message: "Email must be more than 5 characters!" })
+  .email()
   .max(254, { message: "Email must be less than 254 characters!" });
 
 const passwordSchema = z
@@ -42,4 +42,6 @@ const passwordSchema = z
     message: "Password must be contains at least one special character!",
   });
 
-export { usernameSchema, emailSchema, passwordSchema };
+const requiredString = z.string().min(1, "Is Required");
+
+export { usernameSchema, emailSchema, passwordSchema, requiredString };
