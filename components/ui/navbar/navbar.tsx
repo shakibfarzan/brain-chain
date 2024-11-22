@@ -10,9 +10,9 @@ import { Input } from "@nextui-org/input";
 import { SearchIcon } from "@nextui-org/shared-icons";
 
 import Logo from "@/public/logo.svg";
-import NavItems from "@/components/navbar/nav-items";
-import NavAuthButtons from "@/components/navbar/nav-auth-buttons";
-import NavMenu from "@/components/navbar/nav-menu";
+import NavItems from "@/components/ui/navbar/nav-items";
+import NavAuthButtons from "@/components/ui/navbar/nav-auth-buttons";
+import NavMenu from "@/components/ui/navbar/nav-menu";
 
 const Navbar = () => {
   return (

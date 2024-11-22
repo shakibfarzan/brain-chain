@@ -2,7 +2,7 @@ import React from "react";
 import { NavbarContent, NavbarItem } from "@nextui-org/navbar";
 
 import { siteConfig } from "@/config/site";
-import NavLink from "@/components/navbar/nav-link";
+import NavLink from "@/components/ui/navbar/nav-link";
 
 const NavItems: React.FC = () => {
   return (
