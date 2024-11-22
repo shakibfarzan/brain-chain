@@ -3,7 +3,6 @@ import { Input } from "@nextui-org/input";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useFormStatus } from "react-dom";
 
 type Props = {
   label?: string;
@@ -19,9 +18,6 @@ const PasswordInput: React.FC<Props> = ({
   name = "password",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const formStatus = useFormStatus();
-
-  console.log(formStatus.data);
 
   return (
     <Input
@@ -35,7 +31,7 @@ const PasswordInput: React.FC<Props> = ({
       }
       label={label}
       labelPlacement="outside"
-      name="password"
+      name={name}
       placeholder={placeholder}
       type={isVisible ? "text" : "password"}
     />
