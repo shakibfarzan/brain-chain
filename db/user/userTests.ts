@@ -8,7 +8,6 @@ const userTests = () => {
   test("createUser should return the generated user", async () => {
     const newUser: Prisma.UserCreateInput = {
       password: "12345678A*",
-      username: "test",
       email: "test@test.com",
     };
     const completeUserObj = {

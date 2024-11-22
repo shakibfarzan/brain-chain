@@ -1,17 +1,11 @@
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
-import {
-  emailSchema,
-  passwordSchema,
-  safePromise,
-  usernameSchema,
-} from "@/utils";
+import { emailSchema, passwordSchema, safePromise } from "@/utils";
 import prisma from "@/db";
 import { DBReturnType } from "@/types";
 
 const userSchema = z.object({
-  username: usernameSchema,
   email: emailSchema,
   password: passwordSchema,
   bio: z.string().optional(),
