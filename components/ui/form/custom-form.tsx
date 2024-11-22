@@ -3,29 +3,36 @@ import React, { useActionState } from "react";
 import Form from "next/form";
 
 import CustomFormProvider from "@/components/ui/form/custom-form-provider";
-import { ZodFieldErrors } from "@/components/ui/form/form.types";
+import { ActionState, FormState } from "@/components/ui/form/form.types";
 
 type Props = {
-  action: Parameters<typeof useActionState<{ errors: ZodFieldErrors }>>[0];
-  initialState?: Parameters<
-    typeof useActionState<{ errors: ZodFieldErrors }>
-  >[1];
-} & React.ComponentProps<typeof CustomFormProvider>;
+  action: Parameters<ActionState>[0];
+  initialState?: Parameters<ActionState>[1];
+} & React.ComponentProps<typeof CustomFormProvider> &
+  Omit<React.ComponentProps<typeof Form>, "action" | "defaultValue">;
 
 const CustomForm: React.FC<Props> = ({
   children,
   schema,
   action,
   initialState = { errors: {} },
+  defaultFormValues,
+  ...formProps
 }) => {
-  const [state, formAction] = useActionState<{ errors: ZodFieldErrors }>(
+  const [state, formAction] = useActionState<FormState, FormData>(
     action,
     initialState,
   );
 
   return (
-    <CustomFormProvider schema={schema} state={state}>
-      <Form action={formAction}>{children}</Form>
+    <CustomFormProvider
+      defaultFormValues={defaultFormValues}
+      schema={schema}
+      state={state}
+    >
+      <Form {...formProps} action={formAction}>
+        {children}
+      </Form>
     </CustomFormProvider>
   );
 };

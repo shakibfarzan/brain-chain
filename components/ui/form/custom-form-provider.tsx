@@ -10,15 +10,16 @@ import {
 } from "react";
 import * as z from "zod";
 
-import { ZodFieldErrors } from "@/components/ui/form/form.types";
+import { FormState, ZodFieldErrors } from "@/components/ui/form/form.types";
 
 type CustomFormContextType = {
-  realTimeData: Record<string, string | number | null | undefined>;
+  realTimeData: Record<string, string | number | boolean | null | undefined>;
   setRealTimeData: Dispatch<
-    SetStateAction<Record<string, string | number | null | undefined>>
+    SetStateAction<Record<string, string | number | boolean | null | undefined>>
   >;
   errors: ZodFieldErrors;
   setErrors: Dispatch<SetStateAction<ZodFieldErrors>>;
+  schema?: z.ZodObject<any>;
 };
 
 const CustomFormContext = createContext<CustomFormContextType | undefined>(
@@ -27,24 +28,20 @@ const CustomFormContext = createContext<CustomFormContextType | undefined>(
 
 type Props = PropsWithChildren<{
   schema?: z.ZodObject<any>;
-  state?: { errors: ZodFieldErrors };
+  state?: FormState;
+  defaultFormValues?: CustomFormContextType["realTimeData"];
 }>;
 
-const CustomFormProvider: React.FC<Props> = ({ children, schema, state }) => {
+const CustomFormProvider: React.FC<Props> = ({
+  children,
+  schema,
+  state,
+  defaultFormValues,
+}) => {
   const [realTimeData, setRealTimeData] = useState<
     CustomFormContextType["realTimeData"]
-  >({});
+  >(defaultFormValues ?? {});
   const [errors, setErrors] = useState<CustomFormContextType["errors"]>({});
-
-  useEffect(
-    function effectOnRealTimeData() {
-      const result = schema?.safeParse(realTimeData);
-
-      if (!result?.success)
-        setErrors(result?.error.flatten().fieldErrors ?? {});
-    },
-    [realTimeData],
-  );
 
   useEffect(
     function effectOnActionState() {
@@ -55,7 +52,7 @@ const CustomFormProvider: React.FC<Props> = ({ children, schema, state }) => {
 
   return (
     <CustomFormContext.Provider
-      value={{ realTimeData, setRealTimeData, errors, setErrors }}
+      value={{ realTimeData, setRealTimeData, errors, setErrors, schema }}
     >
       {children}
     </CustomFormContext.Provider>
