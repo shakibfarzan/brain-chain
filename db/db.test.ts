@@ -1,11 +1,11 @@
 import { describe, vi } from "vitest";
 
 import prisma from "@/db/__mocks__/prisma";
-import userTests from "@/db/user/userTests";
+import tests from "@/db/user/tests";
 
 vi.mock("./index", () => ({
   default: prisma,
 }));
 describe("All Tests of DB", () => {
-  userTests();
+  tests();
 });

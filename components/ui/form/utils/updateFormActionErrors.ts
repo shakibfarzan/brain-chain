@@ -8,7 +8,7 @@ const updateFormActionErrors = (
 ) => ({
   ...prevState,
   errors: errors
-    ? { ...prevState.errors, ...errors }
+    ? { ...errors }
     : fieldName && errorMessage
       ? { ...prevState.errors, [fieldName]: [errorMessage] }
       : {},

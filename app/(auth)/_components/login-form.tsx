@@ -1,16 +1,18 @@
 "use client";
 import React from "react";
 import { Button } from "@nextui-org/button";
-import { z } from "zod";
+import { useFormStatus } from "react-dom";
 
 import { FormInput } from "@/components/ui/form/elements";
 import { PasswordInput } from "@/components/ui/form/components";
 import SocialButtons from "@/app/(auth)/_components/social-buttons";
 import CustomForm from "@/components/ui/form";
 import { loginFormAction } from "@/app/(auth)/actions";
-import { emailSchema, requiredString } from "@/utils";
+import { loginFormSchema } from "@/app/(auth)/formSchemas";
 
 const LoginForm: React.FC = () => {
+  const { pending, data } = useFormStatus();
+
   return (
     <CustomForm
       action={loginFormAction}
@@ -35,8 +37,3 @@ const LoginForm: React.FC = () => {
 };
 
 export default LoginForm;
-
-export const loginFormSchema = z.object({
-  email: emailSchema,
-  password: requiredString,
-});
