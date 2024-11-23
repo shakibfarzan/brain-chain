@@ -3,6 +3,7 @@ import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { safePromise } from "@/utils";
 import prisma from "@/db";
@@ -18,6 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   //     console.log(message);
   //   },
   // },
+  adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({
       credentials: {

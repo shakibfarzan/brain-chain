@@ -17,7 +17,7 @@ model User {
   id              String            @id @default(cuid())
   email           String            @unique
   name            String
-  password        String
+  password        String?
   bio             String? // Optional
   image           String? // URL to profile image
   reputation      Int               @default(0)
@@ -29,6 +29,9 @@ model User {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   ReportedContent ReportedContent[]
+  emailVerified   DateTime?
+  accounts        Account[]
+  sessions        Session[]
 }
 
 model Question {
@@ -104,4 +107,40 @@ model ReportedContent {
   answerId   String? // Optional
   answer     Answer?   @relation(fields: [answerId], references: [id])
   createdAt  DateTime  @default(now())
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
 }
