@@ -13,8 +13,12 @@ import Logo from "@/public/logo.svg";
 import NavItems from "@/components/ui/navbar/nav-items";
 import NavAuthButtons from "@/components/ui/navbar/nav-auth-buttons";
 import NavMenu from "@/components/ui/navbar/nav-menu";
+import { auth } from "@/auth";
+import UserDropdown from "@/components/ui/user-dropdown";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth();
+
   return (
     <NextUINavbar isBordered>
       <NavbarContent justify="start">
@@ -39,7 +43,7 @@ const Navbar = () => {
           startContent={<SearchIcon />}
           type="search"
         />
-        <NavAuthButtons />
+        {session ? <UserDropdown /> : <NavAuthButtons />}
       </NavbarContent>
       <NavMenu />
     </NextUINavbar>

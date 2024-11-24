@@ -4,5 +4,6 @@ const AUTH = {
   LOG_IN: "/log-in",
   SIGN_UP: "/sign-up",
 };
+const MY_PROFILE = "/my-profile";
 
-export default { AUTH, HOME, QUESTIONS };
+export default { AUTH, HOME, QUESTIONS, MY_PROFILE };

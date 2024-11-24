@@ -5,7 +5,7 @@ import prisma from "@/db/__mocks__/prisma";
 import { createUser } from "@/db/user";
 
 const tests = () => {
-  test("createUser should return the generated user", async () => {
+  test("createUser should return the generated user-dropdown", async () => {
     const newUser: Prisma.UserCreateInput = {
       password: "12345678A*",
       email: "test@test.com",
