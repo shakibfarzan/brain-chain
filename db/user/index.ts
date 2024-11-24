@@ -1,15 +1,22 @@
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
-import { emailSchema, passwordSchema, safePromise } from "@/utils";
+import {
+  emailSchema,
+  optionalString,
+  passwordSchema,
+  safePromise,
+  userNameSchema,
+} from "@/utils";
 import prisma from "@/db";
 import { DBReturnType } from "@/types";
 
 const userSchema = z.object({
   email: emailSchema,
+  name: userNameSchema,
   password: passwordSchema,
-  bio: z.string().optional(),
-  profileImage: z.string().optional(),
+  bio: optionalString,
+  image: optionalString,
 });
 
 export const createUser = async (

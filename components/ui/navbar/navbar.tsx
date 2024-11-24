@@ -13,14 +13,22 @@ import Logo from "@/public/logo.svg";
 import NavItems from "@/components/ui/navbar/nav-items";
 import NavAuthButtons from "@/components/ui/navbar/nav-auth-buttons";
 import NavMenu from "@/components/ui/navbar/nav-menu";
+import { auth } from "@/auth";
+import UserDropdown from "@/components/ui/user-dropdown";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth();
+
   return (
     <NextUINavbar isBordered>
       <NavbarContent justify="start">
         <NavbarMenuToggle className="sm:hidden" />
         <NavbarBrand>
-          <Image alt="BrainChain logo" className="w-[20%] h-[20%]" src={Logo} />
+          <Image
+            alt="BrainChain logo"
+            className="sm:w-10 sm:h-10 lg:w-14 lg:h-14 w-14 h-14"
+            src={Logo}
+          />
           <p className="hidden sm:block font-bold text-inherit">BrainChain</p>
         </NavbarBrand>
         <NavItems />
@@ -39,7 +47,7 @@ const Navbar = () => {
           startContent={<SearchIcon />}
           type="search"
         />
-        <NavAuthButtons />
+        {session ? <UserDropdown /> : <NavAuthButtons />}
       </NavbarContent>
       <NavMenu />
     </NextUINavbar>

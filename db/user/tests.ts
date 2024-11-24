@@ -4,18 +4,19 @@ import { expect, test } from "vitest";
 import prisma from "@/db/__mocks__/prisma";
 import { createUser } from "@/db/user";
 
-const userTests = () => {
-  test("createUser should return the generated user", async () => {
+const tests = () => {
+  test("createUser should return the generated user-dropdown", async () => {
     const newUser: Prisma.UserCreateInput = {
       password: "12345678A*",
       email: "test@test.com",
+      name: "Test user",
     };
     const completeUserObj = {
       ...newUser,
       id: "123",
       bio: null,
       createdAt: new Date(),
-      profileImage: null,
+      image: null,
       isAdmin: false,
       reputation: 0,
       updatedAt: new Date(),
@@ -26,9 +27,9 @@ const userTests = () => {
 
     expect(dbError).toBeNull();
     expect(schemaError).toBeUndefined();
-    expect(user?.username).toBe(newUser.username);
+    expect(user?.name).toBe(newUser.name);
     expect(user?.email).toBe(newUser.email);
   });
 };
 
-export default userTests;
+export default tests;
