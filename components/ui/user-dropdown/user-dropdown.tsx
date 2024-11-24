@@ -22,9 +22,6 @@ const UserDropdown: React.FC = () => {
     isBordered: true,
     src: session?.user?.image ?? undefined,
   };
-  // const isMediumScreen = useMediaQuery(`(min-width: 768px)`, {
-  //   defaultValue: true,
-  // });
 
   useEffect(() => {
     if (isOpen)

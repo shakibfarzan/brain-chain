@@ -24,7 +24,11 @@ const Navbar = async () => {
       <NavbarContent justify="start">
         <NavbarMenuToggle className="sm:hidden" />
         <NavbarBrand>
-          <Image alt="BrainChain logo" className="w-[20%] h-[20%]" src={Logo} />
+          <Image
+            alt="BrainChain logo"
+            className="sm:w-10 sm:h-10 lg:w-14 lg:h-14 w-14 h-14"
+            src={Logo}
+          />
           <p className="hidden sm:block font-bold text-inherit">BrainChain</p>
         </NavbarBrand>
         <NavItems />
