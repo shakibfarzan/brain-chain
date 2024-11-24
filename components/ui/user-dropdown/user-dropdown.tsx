@@ -11,11 +11,12 @@ import clsx from "clsx";
 import { Avatar } from "@nextui-org/avatar";
 import Link from "next/link";
 
-import { useAuth } from "@/hooks";
+import { useAuth, useIsCurrentPath } from "@/hooks";
 import routes from "@/config/routes";
 
 const UserDropdown: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const isCurrentPath = useIsCurrentPath();
   const [isOpen, setIsOpen] = React.useState(false);
   const { session, signOut } = useAuth();
   const avatarProps = {
@@ -58,11 +59,20 @@ const UserDropdown: React.FC = () => {
       </DropdownTrigger>
       {/* @ts-ignore */}
       <DropdownMenu aria-label="Profile Actions" variant="flat">
-        <DropdownItem key="profile" className="h-14 gap-2">
+        <DropdownItem
+          key="profile"
+          className="h-14 gap-2 cursor-default"
+          variant="light"
+        >
           <p className="font-semibold">Signed in as</p>
           <p className="font-semibold">{session?.user?.email}</p>
         </DropdownItem>
-        <DropdownItem key="my_profile" as={Link} href={routes.MY_PROFILE}>
+        <DropdownItem
+          key="my_profile"
+          as={Link}
+          className={isCurrentPath(routes.MY_PROFILE) ? "text-primary" : ""}
+          href={routes.MY_PROFILE}
+        >
           My Profile
         </DropdownItem>
         <DropdownItem
