@@ -11,7 +11,7 @@ export type FormItemProps = {
   isRealTime?: boolean;
 };
 
-export type FormState = { errors: ZodFieldErrors };
+export type FormState = { errors: ZodFieldErrors; isSuccess: boolean };
 
 export type ActionState = typeof useActionState<FormState, FormData>;
 

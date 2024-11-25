@@ -1,5 +1,7 @@
 "use server";
 
+import { redirect } from "next/navigation";
+
 import { FormAction } from "@/components/ui/form/form.types";
 import { safePromise } from "@/utils";
 import updateFormActionErrors from "@/components/ui/form/utils/updateFormActionErrors";
@@ -19,11 +21,17 @@ export const loginFormAction: FormAction = async (prevState, formData) => {
       );
     else {
       const [_, error] = await safePromise(
-        signIn("credentials", { ...result.data, redirectTo: "/" }),
+        signIn("credentials", { ...result.data, redirect: false }),
       );
 
       if (error)
-        return updateFormActionErrors(prevState, undefined, "password", error);
+        return updateFormActionErrors(
+          prevState,
+          undefined,
+          "password",
+          error?.cause?.err?.message,
+        );
+      redirect("/");
     }
   } else {
     await signIn(actionType?.toString(), { redirectTo: "/" });

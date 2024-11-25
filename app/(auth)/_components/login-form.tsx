@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Button } from "@nextui-org/button";
-import { useFormStatus } from "react-dom";
 
 import { FormInput } from "@/components/ui/form/elements";
 import { PasswordInput } from "@/components/ui/form/components";
@@ -11,8 +10,6 @@ import { loginFormAction } from "@/app/(auth)/actions";
 import { loginFormSchema } from "@/app/(auth)/formSchemas";
 
 const LoginForm: React.FC = () => {
-  const { pending, data } = useFormStatus();
-
   return (
     <CustomForm
       action={loginFormAction}

@@ -20,6 +20,7 @@ type CustomFormContextType = {
   errors: ZodFieldErrors;
   setErrors: Dispatch<SetStateAction<ZodFieldErrors>>;
   schema?: z.ZodObject<any>;
+  isSuccess: boolean;
 };
 
 const CustomFormContext = createContext<CustomFormContextType | undefined>(
@@ -52,7 +53,14 @@ const CustomFormProvider: React.FC<Props> = ({
 
   return (
     <CustomFormContext.Provider
-      value={{ realTimeData, setRealTimeData, errors, setErrors, schema }}
+      value={{
+        realTimeData,
+        setRealTimeData,
+        errors,
+        setErrors,
+        schema,
+        isSuccess: !!state?.isSuccess,
+      }}
     >
       {children}
     </CustomFormContext.Provider>
