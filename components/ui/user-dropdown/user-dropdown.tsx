@@ -70,10 +70,12 @@ const UserDropdown: React.FC = () => {
         <DropdownItem
           key="my_profile"
           as={Link}
-          className={isCurrentPath(routes.MY_PROFILE) ? "text-primary" : ""}
-          href={routes.MY_PROFILE}
+          className={
+            isCurrentPath(routes.MY_DASHBOARD.BASE) ? "text-primary" : ""
+          }
+          href={routes.MY_DASHBOARD.QUESTIONS}
         >
-          My Profile
+          My Dashboard
         </DropdownItem>
         <DropdownItem
           key="logout"
