@@ -7,9 +7,14 @@ const AUTH = {
 const MY_DASHBOARD = {
   BASE: "/my-dashboard",
   QUESTIONS: "/my-dashboard/questions",
+  ANSWERS: "/my-dashboard/answers",
+  COMMENTS: "/my-dashboard/comments",
+  EDIT_PROFILE: "/edit-profile",
 };
 
-const JUST_AUTHENTICATED_USER_ROUTES = [MY_DASHBOARD] as const;
+const JUST_AUTHENTICATED_USER_ROUTES = [
+  ...Object.values(MY_DASHBOARD),
+] as const;
 const JUST_NOT_AUTHENTICATED_USER_ROUTES = [AUTH.LOG_IN, AUTH.SIGN_UP] as const;
 
 export default {

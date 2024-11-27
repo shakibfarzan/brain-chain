@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -10,6 +10,7 @@ import {
 } from "@/utils";
 import prisma from "@/db";
 import { DBReturnType } from "@/types";
+import { auth } from "@/auth";
 
 const userSchema = z.object({
   email: emailSchema,
@@ -35,4 +36,26 @@ export const createUser = async (
 
     return { data: res, dbError: error };
   } else return { schemaError };
+};
+
+export const getCurrentUser = async (): Promise<
+  DBReturnType<Omit<User, "password" | "id" | "isAdmin" | "updatedAt">>
+> => {
+  const session = await auth();
+  const [res, error] = await safePromise(
+    prisma.user.findUnique({
+      where: { email: session?.user?.email ?? "" },
+      select: {
+        email: true,
+        name: true,
+        bio: true,
+        image: true,
+        reputation: true,
+        createdAt: true,
+        emailVerified: true,
+      },
+    }),
+  );
+
+  return { data: res ?? undefined, dbError: error };
 };
