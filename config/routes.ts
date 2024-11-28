@@ -1,5 +1,8 @@
 const HOME = "/";
-const QUESTIONS = { ASK_QUESTION: "/ask-question" };
+const QUESTIONS = {
+  ASK_QUESTION: "/ask-question",
+  DETAIL: "/questions/[slug]",
+};
 const AUTH = {
   LOG_IN: "/log-in",
   SIGN_UP: "/sign-up",

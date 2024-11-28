@@ -4,6 +4,7 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { PropsWithChildren } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
 
 import { Providers } from "./providers";
 
@@ -43,9 +44,11 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-              {children}
-            </main>
+            <ScrollShadow className="h-screen">
+              <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+                {children}
+              </main>
+            </ScrollShadow>
           </div>
         </Providers>
       </body>
