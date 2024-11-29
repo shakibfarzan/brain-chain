@@ -21,3 +21,7 @@
 ::-webkit-scrollbar-thumb:hover {
    @apply bg-primary-300
 }
+
+div[data-slot="base"] {
+    @apply opacity-100 !important;
+}

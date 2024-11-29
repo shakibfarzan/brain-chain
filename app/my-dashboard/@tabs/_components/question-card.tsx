@@ -33,7 +33,7 @@ const QuestionCard: React.FC<Props> = ({
       isPressable
       className="overflow-visible border-2 border-solid border-gray-600 mb-4"
       onPress={() => {
-        if (slug) push(manual(routes.QUESTIONS.DETAIL, slug));
+        if (slug) push(manual(routes.QUESTIONS.DETAIL, { params: [slug] }));
       }}
     >
       <CardBody>

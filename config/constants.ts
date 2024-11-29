@@ -3,4 +3,11 @@ export const SIGNS = {
   PARAMS_START: "[",
   PARAMS_END: "]",
   SEGMENT_SEPARATOR: "/",
+  SEARCH_PARAM_SEPARATOR: "&",
+  SEARCH_PARAM_KEY_VALUE_SEPARATOR: "=",
+  SEARCH_PARAM_STARTER: "?",
+};
+
+export const SEARCH_PARAMS_KEYS = {
+  ANSWER_ID: "answerId",
 };

@@ -1,18 +1,14 @@
 import React from "react";
-import { ScrollShadow } from "@nextui-org/scroll-shadow";
 
 import { getQuestionsOfCurrentUser } from "@/db/question";
-import QuestionCard from "@/app/my-dashboard/@tabs/questions/_components/question-card";
+import QuestionCard from "@/app/my-dashboard/@tabs/_components/question-card";
+import CardsContainer from "@/app/my-dashboard/@tabs/_components/cards-container";
 
 const MyDashboardQuestionsPage = async () => {
   const { data } = await getQuestionsOfCurrentUser();
 
   return (
-    <ScrollShadow
-      hideScrollBar
-      className="flex flex-col my-4 max-h-[60vh]"
-      size={20}
-    >
+    <CardsContainer>
       {data?.map((q) => (
         <QuestionCard
           {...q}
@@ -21,7 +17,7 @@ const MyDashboardQuestionsPage = async () => {
           votesCount={q.votes.length}
         />
       ))}
-    </ScrollShadow>
+    </CardsContainer>
   );
 };
 
