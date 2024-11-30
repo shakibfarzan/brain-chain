@@ -37,8 +37,8 @@ const AnswerCard: React.FC<Props> = ({
       isHoverable
       isPressable
       className={clsx(
-        "overflow-visible border-2 border-solid mb-4 w-full",
-        isAccepted ? "border-success" : "border-gray-600",
+        "overflow-visible mb-4 w-full",
+        isAccepted ? "border-2 border-solid border-success" : "",
       )}
       onPress={() => {
         if (questionSlug && id)

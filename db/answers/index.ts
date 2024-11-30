@@ -24,3 +24,16 @@ export const getAnswersOfCurrentUser = async (): Promise<
 
   return { data: res, dbError: error };
 };
+
+export const getAnswerById = async (
+  id: string,
+): Promise<DBReturnType<Omit<GetAnswersOfCurrentUser, "votes">>> => {
+  const [res, error] = await safePromise(
+    prisma.answer.findUnique({
+      include: { question: true },
+      where: { id },
+    }),
+  );
+
+  return { data: res ?? undefined, dbError: error };
+};

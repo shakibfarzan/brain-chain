@@ -21,7 +21,7 @@ const Header = async () => {
         <Button
           as={Link}
           href={routes.MY_DASHBOARD.EDIT_PROFILE}
-          variant="bordered"
+          variant="flat"
         >
           Edit Profile
         </Button>

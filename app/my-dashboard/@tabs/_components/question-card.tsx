@@ -31,7 +31,7 @@ const QuestionCard: React.FC<Props> = ({
     <Card
       isHoverable
       isPressable
-      className="overflow-visible border-2 border-solid border-gray-600 mb-4"
+      className="overflow-visible mb-4"
       onPress={() => {
         if (slug) push(manual(routes.QUESTIONS.DETAIL, { params: [slug] }));
       }}

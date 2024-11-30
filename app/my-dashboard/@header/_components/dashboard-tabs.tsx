@@ -14,7 +14,7 @@ const DashboardTabs = () => {
       aria-label="Tabs"
       color="primary"
       selectedKey={pathname}
-      variant="bordered"
+      variant="light"
       onSelectionChange={(key) => router.push(key as string)}
     >
       <Tab key={routes.MY_DASHBOARD.QUESTIONS} title="Questions" />

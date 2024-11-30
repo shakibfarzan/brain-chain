@@ -1,7 +1,7 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import clsx from "clsx";
+import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
@@ -9,7 +9,6 @@ import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
 import Navbar from "@/components/ui/navbar";
 
 config.autoAddCss = false;
@@ -32,15 +31,15 @@ export const viewport: Viewport = {
   ],
 };
 
+const nextFont = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
+
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <html suppressHydrationWarning lang="en">
-      <body
-        className={clsx(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
+    <html suppressHydrationWarning className={nextFont.className} lang="en">
+      <body className="min-h-screen bg-background font-sans antialiased">
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
