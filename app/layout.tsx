@@ -39,7 +39,7 @@ const nextFont = Inter({
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html suppressHydrationWarning className={nextFont.className} lang="en">
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className="min-h-screen main-background font-sans antialiased">
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />

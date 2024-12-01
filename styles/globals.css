@@ -25,3 +25,7 @@
 div[data-slot="base"] {
     @apply opacity-100 !important;
 }
+
+.main-background {
+    @apply bg-gradient-to-r from-background to-secondary-50;
+}

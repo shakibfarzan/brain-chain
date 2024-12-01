@@ -20,7 +20,7 @@ const Navbar = async () => {
   const session = await auth();
 
   return (
-    <NextUINavbar>
+    <NextUINavbar className="main-background">
       <NavbarContent justify="start">
         <NavbarMenuToggle className="sm:hidden" />
         <NavbarBrand>
