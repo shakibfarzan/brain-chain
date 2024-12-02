@@ -21,7 +21,7 @@ const MyDashboardLayout = ({
       {header}
       {tabs}
       {children}
-      <div className="w-full flex flex-col sm:flex-row gap-4 items-center my-8">
+      <div className="w-full flex flex-col sm:flex-row gap-4 my-8">
         {statistics}
         {badges}
       </div>
