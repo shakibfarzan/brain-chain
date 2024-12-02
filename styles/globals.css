@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-lg transition
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+   @apply bg-primary-300
+}
+
+div[data-slot="base"] {
+    @apply opacity-100 !important;
+}
+
+.main-background {
+    @apply bg-gradient-to-r from-background to-secondary-50;
+}

@@ -32,6 +32,7 @@ model User {
   emailVerified   DateTime?
   accounts        Account[]
   sessions        Session[]
+  UserBadge       UserBadge[]
 }
 
 model Question {
@@ -143,4 +144,21 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Badge {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  criteria    String
+  UserBadge   UserBadge[]
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  userId   String
+  badgeId  String
+  earnedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id])
+  badge    Badge    @relation(fields: [badgeId], references: [id])
 }

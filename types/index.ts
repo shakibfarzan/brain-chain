@@ -5,3 +5,4 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 };
 
 export type { DBReturnType } from "./DBReturnType";
+export type { AppParams } from "./AppParams";

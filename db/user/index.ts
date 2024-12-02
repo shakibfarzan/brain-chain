@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -10,6 +10,8 @@ import {
 } from "@/utils";
 import prisma from "@/db";
 import { DBReturnType } from "@/types";
+import { auth } from "@/auth";
+import { getCurrentUserId } from "@/db/db.utils";
 
 const userSchema = z.object({
   email: emailSchema,
@@ -35,4 +37,66 @@ export const createUser = async (
 
     return { data: res, dbError: error };
   } else return { schemaError };
+};
+
+export const getCurrentUser = async (): Promise<
+  DBReturnType<Omit<User, "password" | "id" | "isAdmin" | "updatedAt">>
+> => {
+  const session = await auth();
+  const [res, error] = await safePromise(
+    prisma.user.findUnique({
+      where: { email: session?.user?.email ?? "" },
+      select: {
+        email: true,
+        name: true,
+        bio: true,
+        image: true,
+        reputation: true,
+        createdAt: true,
+        emailVerified: true,
+      },
+    }),
+  );
+
+  return { data: res ?? undefined, dbError: error };
+};
+
+type GetCurrentUserStatistics = {
+  totalQuestions: number;
+  totalAnswers: number;
+  totalComments: number;
+  upvoteReceived: number;
+};
+
+export const getCurrentUserStatistics = async (): Promise<
+  DBReturnType<GetCurrentUserStatistics>
+> => {
+  const userId = await getCurrentUserId();
+  const [totalQuestions, qErr] = await safePromise(
+    prisma.question.count({ where: { userId } }),
+  );
+  const [totalAnswers, aErr] = await safePromise(
+    prisma.answer.count({ where: { userId } }),
+  );
+  const [totalComments, cErr] = await safePromise(
+    prisma.comment.count({ where: { userId } }),
+  );
+  const [upvoteReceived, vErr] = await safePromise(
+    prisma.vote.count({
+      where: {
+        value: 1,
+        OR: [{ question: { userId } }, { answer: { userId } }],
+      },
+    }),
+  );
+
+  return {
+    data: {
+      totalAnswers: totalAnswers ?? 0,
+      totalComments: totalComments ?? 0,
+      totalQuestions: totalQuestions ?? 0,
+      upvoteReceived: upvoteReceived ?? 0,
+    },
+    dbError: qErr ?? aErr ?? cErr ?? vErr,
+  };
 };
