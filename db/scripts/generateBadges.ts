@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { Prisma } from ".prisma/client";
+import dayjs from "dayjs";
 
 import { safePromise } from "@/utils";
 import prisma from "@/db";
@@ -59,7 +60,7 @@ const data: Prisma.BadgeCreateManyInput[] = [
 
 (async () => {
   const [badges, badgesErr] = await safePromise(
-    prisma.badge.createManyAndReturn({ data }),
+    prisma.badge.createManyAndReturn({ data, skipDuplicates: true }),
   );
 
   if (badgesErr) {
@@ -67,6 +68,8 @@ const data: Prisma.BadgeCreateManyInput[] = [
 
     return;
   }
+
+  console.log("Badges created");
 
   const firstQuestionBadge = badges?.find((bg) => bg.title === data[0].title);
   const firstAnswerBadge = badges?.find((bg) => bg.title === data[1].title);
@@ -87,20 +90,40 @@ const data: Prisma.BadgeCreateManyInput[] = [
   }
 
   for (const user of users ?? []) {
+    // general queries
+    const [userQuestions, uqErr] = await safePromise(
+      prisma.question.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: "asc" },
+        include: { votes: true },
+      }),
+    );
+
+    if (uqErr) {
+      console.error("Error on getting user questions", uqErr);
+
+      return;
+    }
+    const [userAnswers, uaErr] = await safePromise(
+      prisma.answer.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: "asc" },
+        include: { votes: true, question: true },
+      }),
+    );
+
+    if (uaErr) {
+      console.error("Error on getting user answers", uaErr);
+
+      return;
+    }
+
     //   search for first question
     {
-      const [firstQuestion, fqErr] = await safePromise(
-        prisma.question.findFirst({
-          where: { id: user.id },
-          orderBy: { createdAt: "asc" },
-        }),
-      );
+      const firstQuestion = userQuestions?.length
+        ? userQuestions[0]
+        : undefined;
 
-      if (fqErr) {
-        console.error("Error on getting FQ", fqErr);
-
-        return;
-      }
       if (firstQuestion?.id && firstQuestionBadge?.id) {
         const [, err] = await safePromise(
           prisma.userBadge.create({
@@ -117,18 +140,8 @@ const data: Prisma.BadgeCreateManyInput[] = [
     }
     // search for first answer
     {
-      const [firstAnswer, faError] = await safePromise(
-        prisma.answer.findFirst({
-          where: { id: user.id },
-          orderBy: { createdAt: "asc" },
-        }),
-      );
+      const firstAnswer = userAnswers?.length ? userAnswers[0] : undefined;
 
-      if (faError) {
-        console.error("Error on getting FA", faError);
-
-        return;
-      }
       if (firstAnswer?.id && firstAnswerBadge?.id) {
         const [, err] = await safePromise(
           prisma.userBadge.create({
@@ -143,5 +156,185 @@ const data: Prisma.BadgeCreateManyInput[] = [
         }
       }
     }
+    let hasPopularQuestion = false;
+
+    // search for top contributor
+    {
+      let count = 0;
+
+      userQuestions?.forEach((userQuestion) => {
+        const singleQCount = userQuestion.votes.filter(
+          (v) => v.value === 1,
+        ).length;
+
+        if (singleQCount >= 50) hasPopularQuestion = true;
+        count += singleQCount;
+      });
+
+      userAnswers?.forEach((userAnswer) => {
+        count += userAnswer.votes.filter((v) => v.value === 1).length;
+      });
+
+      if (count >= 100 && topContributorBadge?.id) {
+        const [, err] = await safePromise(
+          prisma.userBadge.create({
+            data: { userId: user.id, badgeId: topContributorBadge.id },
+          }),
+        );
+
+        if (err) {
+          console.error("Error on creating TC badge", err);
+
+          return;
+        }
+      }
+    }
+    // search for popular question
+    {
+      if (hasPopularQuestion && popularQuestionBadge?.id) {
+        const [, err] = await safePromise(
+          prisma.userBadge.create({
+            data: { userId: user.id, badgeId: popularQuestionBadge.id },
+          }),
+        );
+
+        if (err) {
+          console.error("Error on creating PQ badge", err);
+
+          return;
+        }
+      }
+    }
+    const numberOfAcceptedAnswers = userAnswers?.filter(
+      (a) => a.isAccepted,
+    ).length;
+
+    // search for accepted answer
+    {
+      if (numberOfAcceptedAnswers && acceptedAnswerBadge?.id) {
+        const [, err] = await safePromise(
+          prisma.userBadge.create({
+            data: { userId: user.id, badgeId: acceptedAnswerBadge.id },
+          }),
+        );
+
+        if (err) {
+          console.error("Error on creating AA badge", err);
+
+          return;
+        }
+      }
+    }
+    // search for tag specialist
+    {
+      const [count, tagsErr] = await safePromise(
+        prisma.tag.count({
+          where: {
+            OR: [
+              { Question: { some: { userId: user.id } } },
+              {
+                Question: { some: { answers: { some: { userId: user.id } } } },
+              },
+            ],
+          },
+        }),
+      );
+
+      if (tagsErr) {
+        console.error("Error on getting count of tags");
+
+        return;
+      }
+      if (count && count >= 10 && tagSpecialistBadge?.id) {
+        const [, err] = await safePromise(
+          prisma.userBadge.create({
+            data: { userId: user.id, badgeId: tagSpecialistBadge.id },
+          }),
+        );
+
+        if (err) {
+          console.error("Error on creating TS badge", err);
+
+          return;
+        }
+      }
+    }
+    // search for early birds
+    {
+      for (const userAnswer of userAnswers ?? []) {
+        const questionCreatedAt = userAnswer.question.createdAt;
+        const isFewerThan15 = dayjs(questionCreatedAt)
+          .add(15, "minutes")
+          .isBefore(dayjs(userAnswer.createdAt), "minutes");
+
+        if (isFewerThan15 && earlyBirdBadge?.id) {
+          const [, err] = await safePromise(
+            prisma.userBadge.create({
+              data: { userId: user.id, badgeId: earlyBirdBadge.id },
+            }),
+          );
+
+          if (err) {
+            console.error("Error on creating EB badge", err);
+
+            return;
+          }
+          break;
+        }
+      }
+    }
+    // search for community helper
+    {
+      const [userCommentsCount, ucErr] = await safePromise(
+        prisma.comment.count({
+          where: { userId: user.id },
+        }),
+      );
+
+      if (ucErr) {
+        console.error("Error on getting user comments count", ucErr);
+
+        return;
+      }
+
+      if (
+        userCommentsCount &&
+        userCommentsCount >= 20 &&
+        communityHelperBadge?.id
+      ) {
+        const [, err] = await safePromise(
+          prisma.userBadge.create({
+            data: { userId: user.id, badgeId: communityHelperBadge.id },
+          }),
+        );
+
+        if (err) {
+          console.error("Error on creating CH badge", err);
+
+          return;
+        }
+      }
+    }
+    // search for mentor
+    {
+      if (
+        numberOfAcceptedAnswers &&
+        numberOfAcceptedAnswers >= 10 &&
+        mentorBadge?.id
+      ) {
+        const [, err] = await safePromise(
+          prisma.userBadge.create({
+            data: { userId: user.id, badgeId: mentorBadge.id },
+          }),
+        );
+
+        if (err) {
+          console.error("Error on creating M badge", err);
+
+          return;
+        }
+      }
+    }
+    console.log("All badges created for user", user.name);
   }
 })();
