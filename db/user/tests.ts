@@ -22,7 +22,7 @@ const tests = () => {
       updatedAt: new Date(),
     };
 
-    prisma.user.create.mockResolvedValue(completeUserObj);
+    prisma.user.create.mockResolvedValue(completeUserObj as any);
     const { data: user, dbError, schemaError } = await createUser(newUser);
 
     expect(dbError).toBeNull();
