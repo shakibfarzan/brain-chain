@@ -44,7 +44,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           <div className="relative flex flex-col h-screen">
             <Navbar />
             <ScrollShadow className="h-screen">
-              <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+              <main className="container mx-auto max-w-7xl py-8 px-6 flex-grow">
                 {children}
               </main>
             </ScrollShadow>

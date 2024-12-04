@@ -10,12 +10,14 @@ type Props = {
   totalCount: number;
   pageSize?: number;
   initialPage?: number;
+  pageParam?: string;
 };
 
 const Pagination: React.FC<Props> = ({
   totalCount,
   pageSize = 10,
   initialPage = 1,
+  pageParam = SEARCH_PARAMS_KEYS.PAGE,
 }) => {
   const { push } = useRouter();
   const pathname = usePathname();
@@ -31,10 +33,11 @@ const Pagination: React.FC<Props> = ({
       color="primary"
       initialPage={initialPage}
       total={totalPages}
+      variant="light"
       onChange={(page) =>
         push(
           manual(pathname, {
-            searchParams: { [SEARCH_PARAMS_KEYS.PAGE]: page.toString() },
+            searchParams: { [pageParam]: page.toString() },
           }),
         )
       }

@@ -10,7 +10,7 @@ const DashboardTabs = () => {
   const router = useRouter();
 
   return (
-    <div className="border-2 border-b-0 px-3 pt-3 border-solid border-gray-400 rounded-t-xl">
+    <div className="bg-black bg-opacity-10 px-3 pt-3 rounded-t-xl">
       <Tabs
         aria-label="Tabs"
         color="primary"

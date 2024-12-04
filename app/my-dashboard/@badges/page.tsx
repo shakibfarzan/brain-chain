@@ -9,9 +9,9 @@ const Badges = async () => {
   const notFoundAnyBadges = data && !data.length;
 
   return (
-    <Card className="w-full sm:w-1/2 p-2">
+    <Card isBlurred className="w-full sm:w-1/2 p-2 shadow-small">
       <CardHeader className="text-2xl font-semibold">Badges</CardHeader>
-      <CardBody className="flex flex-wrap flex-row gap-x-4">
+      <CardBody className="flex flex-wrap flex-row gap-4">
         {data?.map((bg) => (
           <UserBadge
             key={bg.id}

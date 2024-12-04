@@ -2,12 +2,15 @@ import React from "react";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 
 import { getCurrentUserStatistics } from "@/db/user";
-// bg-gradient-to-br to-70% from-primary-200 to-secondary-200
+
 const UserStatistics = async () => {
   const { data } = await getCurrentUserStatistics();
 
   return (
-    <Card className="w-full sm:w-1/2 overflow-visible p-2">
+    <Card
+      isBlurred
+      className="w-full sm:w-1/2 overflow-visible p-2 shadow-small"
+    >
       <CardHeader className="text-2xl font-semibold">
         User Statistics
       </CardHeader>

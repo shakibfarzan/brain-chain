@@ -29,6 +29,9 @@ const FormInput: React.FC<Props> = ({
   return (
     <Input
       {...rest}
+      classNames={{
+        inputWrapper: "bg-default-400/20 dark:bg-default-500/20",
+      }}
       errorMessage={errorMessage?.[0]}
       isInvalid={!!errorMessage}
       labelPlacement="outside"

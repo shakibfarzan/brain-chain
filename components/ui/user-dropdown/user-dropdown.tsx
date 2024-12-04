@@ -35,6 +35,9 @@ const UserDropdown: React.FC = () => {
   return (
     <Dropdown
       ref={ref}
+      classNames={{
+        content: "bg-opacity-40 backdrop-blur-lg",
+      }}
       isOpen={isOpen}
       placement="bottom-end"
       onOpenChange={(v) => setIsOpen(v)}

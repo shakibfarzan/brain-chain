@@ -5,11 +5,12 @@ import QuestionCard from "@/app/my-dashboard/@tabs/_components/question-card";
 import NotFoundResults from "@/app/my-dashboard/@tabs/_components/not-found-results";
 import { PropsWithParams } from "@/types/AppParams";
 import TabContentContainer from "@/app/my-dashboard/@tabs/_components/tab-content-container";
+import { SEARCH_PARAMS_KEYS } from "@/config/constants";
 
 const PAGE_SIZE = 5;
 
 const MyDashboardQuestionsPage = async ({ searchParams }: PropsWithParams) => {
-  const { page } = await searchParams;
+  const { [SEARCH_PARAMS_KEYS.TABS_PAGE]: page } = await searchParams;
   const { data } = await getQuestionsOfCurrentUser(
     Number(page ?? 1),
     PAGE_SIZE,

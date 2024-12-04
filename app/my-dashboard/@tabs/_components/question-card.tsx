@@ -29,9 +29,9 @@ const QuestionCard: React.FC<Props> = ({
 
   return (
     <Card
-      isHoverable
+      isBlurred
       isPressable
-      className="overflow-visible mb-4"
+      className="overflow-visible mb-4 shadow-small transition hover:scale-[1.01]"
       onPress={() => {
         if (slug) push(manual(routes.QUESTIONS.DETAIL, { params: [slug] }));
       }}

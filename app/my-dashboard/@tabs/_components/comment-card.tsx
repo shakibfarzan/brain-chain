@@ -45,9 +45,9 @@ const CommentCard: React.FC<Props> = ({
 
   return (
     <Card
-      isHoverable
+      isBlurred
       isPressable
-      className="overflow-visible mb-4 w-full"
+      className="overflow-visible mb-4 w-full shadow-small transition hover:scale-[1.01]"
       onPress={onPress}
     >
       <CardHeader className="flex flex-col items-start">

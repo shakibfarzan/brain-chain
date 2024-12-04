@@ -13,4 +13,5 @@ export const SEARCH_PARAMS_KEYS = {
   COMMENT_ID: "commentId",
   PAGE: "page",
   PAGE_SIZE: "pageSize",
+  TABS_PAGE: "tabsPage",
 };

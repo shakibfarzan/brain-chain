@@ -34,10 +34,10 @@ const AnswerCard: React.FC<Props> = ({
 
   return (
     <Card
-      isHoverable
+      isBlurred
       isPressable
       className={clsx(
-        "overflow-visible mb-4 w-full",
+        "overflow-visible mb-4 w-full shadow-small transition hover:scale-[1.01]",
         isAccepted ? "border-2 border-solid border-success" : "",
       )}
       onPress={() => {
