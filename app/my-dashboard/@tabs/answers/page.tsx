@@ -1,17 +1,22 @@
 import React from "react";
 
 import { getAnswersOfCurrentUser } from "@/db/answers";
-import CardsContainer from "@/app/my-dashboard/@tabs/_components/cards-container";
 import AnswerCard from "@/app/my-dashboard/@tabs/_components/answer-card";
 import NotFoundResults from "@/app/my-dashboard/@tabs/_components/not-found-results";
+import { PropsWithParams } from "@/types/AppParams";
+import TabContentContainer from "@/app/my-dashboard/@tabs/_components/tab-content-container";
 
-const MyDashboardAnswersPage = async () => {
-  const { data } = await getAnswersOfCurrentUser();
-  const noAnswersFound = data && !data.length;
+const PAGE_SIZE = 5;
+
+const MyDashboardAnswersPage = async ({ searchParams }: PropsWithParams) => {
+  const { page } = await searchParams;
+
+  const { data } = await getAnswersOfCurrentUser(Number(page ?? 1), PAGE_SIZE);
+  const noAnswersFound = data && !data.count;
 
   return (
-    <CardsContainer>
-      {data?.map((d) => (
+    <TabContentContainer pageSize={PAGE_SIZE} totalCount={data?.count ?? 0}>
+      {data?.results.map((d) => (
         <AnswerCard
           {...d}
           key={d.id}
@@ -21,7 +26,7 @@ const MyDashboardAnswersPage = async () => {
         />
       ))}
       {noAnswersFound && <NotFoundResults title="No answers found :(" />}
-    </CardsContainer>
+    </TabContentContainer>
   );
 };
 

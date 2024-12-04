@@ -19,7 +19,9 @@ const MyDashboardLayout = ({
   return (
     <div>
       {header}
-      {tabs}
+      <div className="w-full flex flex-col items-center border-2 border-solid border-gray-400 border-t-0 rounded-b-xl px-2 pt-2 pb-4">
+        {tabs}
+      </div>
       {children}
       <div className="w-full flex flex-col sm:flex-row gap-4 my-8">
         {statistics}

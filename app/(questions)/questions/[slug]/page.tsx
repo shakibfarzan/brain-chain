@@ -1,6 +1,6 @@
 import React from "react";
 
-const QuestionDetailPage = async () => {
+const QuestionDetailPage = () => {
   return <div>Question detail page</div>;
 };
 

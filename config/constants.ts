@@ -11,4 +11,6 @@ export const SIGNS = {
 export const SEARCH_PARAMS_KEYS = {
   ANSWER_ID: "answerId",
   COMMENT_ID: "commentId",
+  PAGE: "page",
+  PAGE_SIZE: "pageSize",
 };

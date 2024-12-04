@@ -3,7 +3,7 @@ import { Spinner } from "@nextui-org/spinner";
 
 const Loading = () => {
   return (
-    <div className="h-[60vh] flex items-start justify-center">
+    <div className="h-[60vh] flex items-center justify-center">
       <Spinner label="Loading" size="lg" />
     </div>
   );
