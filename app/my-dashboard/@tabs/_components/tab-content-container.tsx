@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from "react";
 
-import { Pagination } from "@/components/primitive";
+import { Pagination } from "../../../../components/basic";
+
 import CardsContainer from "@/app/my-dashboard/@tabs/_components/cards-container";
 import { SEARCH_PARAMS_KEYS } from "@/config/constants";
 

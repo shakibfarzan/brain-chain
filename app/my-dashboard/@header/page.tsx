@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { Divider } from "@nextui-org/divider";
 
 import { getCurrentUser } from "@/db/user";
 import routes from "@/config/routes";
@@ -26,6 +27,7 @@ const Header = async () => {
           Edit Profile
         </Button>
       </div>
+      <Divider />
       <DashboardTabs />
     </div>
   );

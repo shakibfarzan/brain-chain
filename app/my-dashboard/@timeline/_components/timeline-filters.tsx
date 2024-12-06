@@ -2,7 +2,7 @@
 import React from "react";
 import { Select, SelectItem } from "@nextui-org/select";
 
-const TimelineFilters = () => {
+const TimelineFilters: React.FC = () => {
   return (
     <div className="flex w-full items-center justify-between">
       {/* @ts-ignore */}

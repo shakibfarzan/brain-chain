@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "@nextui-org/card";
 
-import H1 from "@/components/primitive/h1";
+import H1 from "@/components/basic/h1";
 import LoginForm from "@/app/(auth)/_components/login-form";
 
 const LoginPage = () => {
