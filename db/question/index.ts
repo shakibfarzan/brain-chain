@@ -1,10 +1,10 @@
 import { Answer, Question, Vote } from "@prisma/client";
 
-import { DBReturnType } from "@/types";
+import { DbReturnType } from "@/types";
 import prisma from "@/db";
 import { safePromise } from "@/utils";
 import { getCurrentUserId } from "@/db/db.utils";
-import { PaginatedReturnType } from "@/types/DBReturnType";
+import { PaginatedReturnType } from "@/types/db-return-type";
 
 type GetQuestionsOfCurrentUser = Question & {
   answers: Answer[];
@@ -14,7 +14,7 @@ type GetQuestionsOfCurrentUser = Question & {
 export const getQuestionsOfCurrentUser = async (
   page?: number,
   pageSize?: number,
-): Promise<DBReturnType<PaginatedReturnType<GetQuestionsOfCurrentUser>>> => {
+): Promise<DbReturnType<PaginatedReturnType<GetQuestionsOfCurrentUser>>> => {
   const skip = page && pageSize ? (page - 1) * pageSize : undefined;
   const userId = await getCurrentUserId();
   const resultsPromise = prisma.question.findMany({

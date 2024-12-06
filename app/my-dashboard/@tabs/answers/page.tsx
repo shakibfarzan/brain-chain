@@ -3,7 +3,7 @@ import React from "react";
 import { getAnswersOfCurrentUser } from "@/db/answers";
 import AnswerCard from "@/app/my-dashboard/@tabs/_components/answer-card";
 import NotFoundResults from "@/app/my-dashboard/@tabs/_components/not-found-results";
-import { PropsWithParams } from "@/types/AppParams";
+import { PropsWithParams } from "@/types/app-params";
 import TabContentContainer from "@/app/my-dashboard/@tabs/_components/tab-content-container";
 import { SEARCH_PARAMS_KEYS } from "@/config/constants";
 

@@ -4,7 +4,7 @@ import { Select, SelectItem } from "@nextui-org/select";
 
 const TimelineFilters: React.FC = () => {
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full items-center gap-2 flex-wrap justify-between">
       {/* @ts-ignore */}
       <Select
         className="max-w-xs"

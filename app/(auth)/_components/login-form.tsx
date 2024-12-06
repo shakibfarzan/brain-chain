@@ -7,7 +7,7 @@ import { PasswordInput } from "@/components/ui/form/components";
 import SocialButtons from "@/app/(auth)/_components/social-buttons";
 import CustomForm from "@/components/ui/form";
 import { loginFormAction } from "@/app/(auth)/actions";
-import { loginFormSchema } from "@/app/(auth)/formSchemas";
+import { loginFormSchema } from "@/app/(auth)/form-schemas";
 
 const LoginForm: React.FC = () => {
   return (

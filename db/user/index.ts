@@ -9,7 +9,7 @@ import {
   userNameSchema,
 } from "@/utils";
 import prisma from "@/db";
-import { DBReturnType } from "@/types";
+import { DbReturnType } from "@/types";
 import { auth } from "@/auth";
 import { getCurrentUserId } from "@/db/db.utils";
 
@@ -23,7 +23,7 @@ const userSchema = z.object({
 
 export const createUser = async (
   data: Prisma.UserCreateInput,
-): Promise<DBReturnType<Prisma.UserCreateInput>> => {
+): Promise<DbReturnType<Prisma.UserCreateInput>> => {
   const {
     success,
     data: parsedData,
@@ -40,7 +40,7 @@ export const createUser = async (
 };
 
 export const getCurrentUser = async (): Promise<
-  DBReturnType<Omit<User, "password" | "id" | "isAdmin" | "updatedAt">>
+  DbReturnType<Omit<User, "password" | "id" | "isAdmin" | "updatedAt">>
 > => {
   const session = await auth();
   const [res, error] = await safePromise(
@@ -69,7 +69,7 @@ type GetCurrentUserStatistics = {
 };
 
 export const getCurrentUserStatistics = async (): Promise<
-  DBReturnType<GetCurrentUserStatistics>
+  DbReturnType<GetCurrentUserStatistics>
 > => {
   const userId = await getCurrentUserId();
   const [totalQuestions, qErr] = await safePromise(

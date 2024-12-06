@@ -3,9 +3,9 @@ import { Comment, Question } from "@prisma/client";
 import { getCurrentUserId } from "@/db/db.utils";
 import { safePromise } from "@/utils";
 import prisma from "@/db";
-import { DBReturnType } from "@/types";
+import { DbReturnType } from "@/types";
 import { getAnswerById } from "@/db/answers";
-import { PaginatedReturnType } from "@/types/DBReturnType";
+import { PaginatedReturnType } from "@/types/db-return-type";
 
 type GetCommentsOfCurrentUser = Comment & {
   question: Question | null;
@@ -19,7 +19,7 @@ type GetCommentsOfCurrentUser = Comment & {
 export const getCommentsOfCurrentUser = async (
   page?: number,
   pageSize?: number,
-): Promise<DBReturnType<PaginatedReturnType<GetCommentsOfCurrentUser>>> => {
+): Promise<DbReturnType<PaginatedReturnType<GetCommentsOfCurrentUser>>> => {
   const skip = page && pageSize ? (page - 1) * pageSize : undefined;
   const userId = await getCurrentUserId();
   const resultsPromise = prisma.comment.findMany({

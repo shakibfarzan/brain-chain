@@ -3,8 +3,8 @@ import { Answer, Question, Vote } from "@prisma/client";
 import { getCurrentUserId } from "@/db/db.utils";
 import { safePromise } from "@/utils";
 import prisma from "@/db";
-import { DBReturnType } from "@/types";
-import { PaginatedReturnType } from "@/types/DBReturnType";
+import { DbReturnType } from "@/types";
+import { PaginatedReturnType } from "@/types/db-return-type";
 
 type GetAnswersOfCurrentUser = Answer & {
   question: Question;
@@ -14,7 +14,7 @@ type GetAnswersOfCurrentUser = Answer & {
 export const getAnswersOfCurrentUser = async (
   page?: number,
   pageSize?: number,
-): Promise<DBReturnType<PaginatedReturnType<GetAnswersOfCurrentUser>>> => {
+): Promise<DbReturnType<PaginatedReturnType<GetAnswersOfCurrentUser>>> => {
   const skip = page && pageSize ? (page - 1) * pageSize : undefined;
   const userId = await getCurrentUserId();
   const resultsPromise = prisma.answer.findMany({
@@ -37,7 +37,7 @@ export const getAnswersOfCurrentUser = async (
 
 export const getAnswerById = async (
   id: string,
-): Promise<DBReturnType<Omit<GetAnswersOfCurrentUser, "votes">>> => {
+): Promise<DbReturnType<Omit<GetAnswersOfCurrentUser, "votes">>> => {
   const [res, error] = await safePromise(
     prisma.answer.findUnique({
       include: { question: true },

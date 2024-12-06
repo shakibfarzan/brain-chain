@@ -1,6 +1,6 @@
 import { ZodError } from "zod";
 
-export type DBReturnType<T> = {
+export type DbReturnType<T> = {
   data?: T;
   dbError?: any;
   schemaError?: ZodError;
