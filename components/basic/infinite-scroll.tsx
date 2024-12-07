@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 
-import { safePromise } from "@/utils";
+import { areNearlyEqual, safePromise } from "@/utils";
 
 type Props<T> = React.ComponentProps<typeof ScrollShadow> & {
   initialData: T[];
@@ -23,13 +23,16 @@ function InfiniteScroll<T>({
   notFound,
   ...rest
 }: Props<T>): ReturnType<React.FC> {
+  const ref = React.useRef<HTMLDivElement>(null);
   const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState(initialData);
   const [isLoading, setLoading] = React.useState(false);
   const noResultsFound = !initialData.length;
 
   useEffect(
-    function updateInitialData() {
+    function scrollToTop() {
+      ref.current?.scrollTo({ behavior: "instant", top: 0 });
+      setPage(1);
       setData(initialData);
     },
     [initialData],
@@ -38,13 +41,17 @@ function InfiniteScroll<T>({
   return (
     <ScrollShadow
       {...rest}
+      ref={ref}
       onScroll={async (e) => {
         if (data.length < totalCount || totalCount > pageSize) {
           const { target } = e;
 
           if (
-            (target as any).scrollTop + (target as any).offsetHeight ===
-            (target as any).scrollHeight
+            areNearlyEqual(
+              (target as any).scrollTop + (target as any).offsetHeight,
+              (target as any).scrollHeight,
+              1,
+            )
           ) {
             setLoading(true);
             const newPage = page + 1;

@@ -4,7 +4,7 @@ import { Comment } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
-import dayjs from "dayjs";
+import { format } from "date-fns";
 
 import { useReplaceParams } from "@/hooks";
 import routes from "@/config/routes";
@@ -64,7 +64,7 @@ const CommentCard: React.FC<Props> = ({
       <CardBody className="font-extralight text-lg">{content}</CardBody>
       <CardFooter className="text-sm">
         Posted on{" "}
-        {dayjs(createdAt).format(DATETIME_FORMATS.DATE_DASH_SEPARATOR)}
+        {format(createdAt ?? "", DATETIME_FORMATS.DATE_DASH_SEPARATOR)}
       </CardFooter>
     </Card>
   );

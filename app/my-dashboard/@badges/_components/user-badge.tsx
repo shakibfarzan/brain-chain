@@ -1,7 +1,6 @@
 import React from "react";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Chip } from "@nextui-org/chip";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
   faBook,
   faComments,
@@ -14,6 +13,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faEarlybirds } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { IconValue } from "@/types";
 
 type Props = {
   description: string;
@@ -36,11 +37,6 @@ const UserBadge: React.FC<Props> = ({ title, description }) => {
 };
 
 export default UserBadge;
-
-type IconValue = {
-  icon: IconProp;
-  color: string;
-};
 
 const titleIconMap: Record<string, IconValue> = {
   "First Question": { icon: faLightbulb, color: "#4CAF50" },

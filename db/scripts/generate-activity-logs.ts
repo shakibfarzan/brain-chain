@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import dayjs from "dayjs";
+
+import { format } from "date-fns";
 
 import prisma from "@/db";
 import { safePromise } from "@/utils";
@@ -116,7 +117,7 @@ import { DATETIME_FORMATS } from "@/config/constants";
           data: {
             userId,
             activityType: "USER_REGISTERED",
-            description: `User registered on ${dayjs(user.createdAt).format(DATETIME_FORMATS.DATE_DASH_SEPARATOR)}`,
+            description: `User registered on ${format(user.createdAt, DATETIME_FORMATS.DATE_DASH_SEPARATOR)}`,
             createdAt: user.createdAt,
           },
         });

@@ -1,8 +1,9 @@
 import { ActivityType } from "@prisma/client";
 
 export const DATETIME_FORMATS = {
-  DATE_DASH_SEPARATOR: "YYYY-MM-DD",
+  DATE_DASH_SEPARATOR: "yyyy-MM-dd",
   FULL_WEEKDAY: "dddd",
+  SHORT_MONTH_NAME: "MMM d, yyyy",
 } as const;
 
 export const SIGNS = {
