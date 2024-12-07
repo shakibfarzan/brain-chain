@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 
 import { safePromise } from "@/utils";
@@ -27,6 +27,13 @@ function InfiniteScroll<T>({
   const [data, setData] = React.useState(initialData);
   const [isLoading, setLoading] = React.useState(false);
   const noResultsFound = !initialData.length;
+
+  useEffect(
+    function updateInitialData() {
+      setData(initialData);
+    },
+    [initialData],
+  );
 
   return (
     <ScrollShadow

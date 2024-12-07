@@ -3,14 +3,14 @@ import { ActivityLog, ActivityType } from "@prisma/client";
 import { getCurrentUserId } from "@/db/db.utils";
 import prisma from "@/db";
 import { safePromise } from "@/utils";
-import { DbReturnType } from "@/types";
+import { DbReturnType, OrderType } from "@/types";
 import { PaginatedReturnType } from "@/types/db-return-type";
 
 export const getActivityLogsOfCurrentUser = async (
   page?: number,
   pageSize?: number,
   activityType?: ActivityType,
-  orderByCreatedAt?: "asc" | "desc",
+  orderByCreatedAt?: OrderType,
 ): Promise<DbReturnType<PaginatedReturnType<ActivityLog>>> => {
   const skip = page && pageSize ? (page - 1) * pageSize : undefined;
   const userId = await getCurrentUserId();

@@ -25,7 +25,7 @@ const UserBadge: React.FC<Props> = ({ title, description }) => {
 
   return (
     <Tooltip content={description} placement="top">
-      <Chip className="bg-gradient-to-br from-primary-300 p-2 to-secondary-300">
+      <Chip className="bg-gradient-to-br from-primary-100 p-2 to-secondary-100">
         <div className="flex gap-1 items-center">
           <FontAwesomeIcon color={iconProps.color} icon={iconProps.icon} />
           {title}

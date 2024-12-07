@@ -40,7 +40,12 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html suppressHydrationWarning className={nextFont.className} lang="en">
       <body className="min-h-screen main-background font-sans antialiased">
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <Providers
+          themeProps={{
+            attribute: "class",
+            enableSystem: true,
+          }}
+        >
           <div className="relative flex flex-col h-screen">
             <Navbar />
             <ScrollShadow className="h-screen">

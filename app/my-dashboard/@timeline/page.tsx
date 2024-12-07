@@ -1,12 +1,27 @@
 import React from "react";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { ActivityType } from "@prisma/client";
 
 import TimelineFilters from "@/app/my-dashboard/@timeline/_components/timeline-filters";
-import { getAnswersOfCurrentUser } from "@/db/answers";
 import TimelineActivitiesList from "@/app/my-dashboard/@timeline/_components/timeline-activities-list";
+import { getActivityLogsOfCurrentUser } from "@/db/activity-log";
+import { PropsWithParams } from "@/types/app-params";
+import { SEARCH_PARAMS_KEYS } from "@/config/constants";
+import { OrderType } from "@/types";
+import { ACTIVITIES_PAGE_SIZE } from "@/app/my-dashboard/@timeline/timeline.constans";
 
-const ActivityTimeline = async () => {
-  const { data } = await getAnswersOfCurrentUser(1, 10);
+const ActivityTimeline = async ({ searchParams }: PropsWithParams) => {
+  const {
+    [SEARCH_PARAMS_KEYS.ACTIVITY_TYPE]: activityType,
+    [SEARCH_PARAMS_KEYS.ACTIVITY_LOG_ORDER]: orderByCreatedAt,
+  } = await searchParams;
+
+  const { data } = await getActivityLogsOfCurrentUser(
+    1,
+    ACTIVITIES_PAGE_SIZE,
+    activityType ? (activityType.toString() as ActivityType) : undefined,
+    orderByCreatedAt ? (orderByCreatedAt.toString() as OrderType) : undefined,
+  );
 
   return (
     <Card isBlurred className="shadow-small p-2 w-full">

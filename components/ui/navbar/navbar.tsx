@@ -26,10 +26,12 @@ const Navbar = async () => {
         <NavbarBrand>
           <Image
             alt="BrainChain logo"
-            className="sm:w-10 sm:h-10 lg:w-14 lg:h-14 w-14 h-14"
+            className="sm:w-10 sm:h-10 lg:w-14 lg:h-14 w-14 h-14 bg-black rounded-3xl dark:bg-primary-50"
             src={Logo}
           />
-          <p className="hidden sm:block font-bold text-inherit">BrainChain</p>
+          <p className="hidden sm:block font-bold text-inherit ml-1">
+            BrainChain
+          </p>
         </NavbarBrand>
         <NavItems />
       </NavbarContent>
