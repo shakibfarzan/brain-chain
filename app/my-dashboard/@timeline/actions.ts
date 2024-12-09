@@ -2,7 +2,10 @@
 
 import { ActivityType } from "@prisma/client";
 
-import { getActivityLogsOfCurrentUser } from "@/db/activity-log";
+import {
+  getActivityLogRelatedData,
+  getActivityLogsOfCurrentUser,
+} from "@/db/activity-log";
 import { OrderType } from "@/types";
 
 export const loadMoreActivities = async (
@@ -20,3 +23,8 @@ export const loadMoreActivities = async (
 
   return data?.results ?? [];
 };
+
+export const fetchActivityLogRelatedData: typeof getActivityLogRelatedData =
+  async (relatedId, activityType) => {
+    return await getActivityLogRelatedData(relatedId, activityType);
+  };

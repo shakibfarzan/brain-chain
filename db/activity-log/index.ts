@@ -32,3 +32,65 @@ export const getActivityLogsOfCurrentUser = async (
     dbError: error,
   };
 };
+
+type GetActivityLogRelatedData = {
+  questionSlug?: string;
+  answerId?: string;
+  commentId?: string;
+};
+
+export const getActivityLogRelatedData = async (
+  relatedId: string,
+  activityType: ActivityType,
+): Promise<GetActivityLogRelatedData> => {
+  if (questionTypes.includes(activityType)) {
+    const [res] = await safePromise(
+      prisma.question.findUnique({
+        where: { id: relatedId },
+      }),
+    );
+
+    return { questionSlug: res?.slug };
+  } else if (answerTypes.includes(activityType)) {
+    const [res] = await safePromise(
+      prisma.answer.findUnique({
+        where: { id: relatedId },
+        include: { question: true },
+      }),
+    );
+
+    return { questionSlug: res?.question.slug, answerId: res?.id };
+  } else if (voteTypes.includes(activityType)) {
+    const [res] = await safePromise(
+      prisma.vote.findUnique({
+        where: { id: relatedId },
+        include: { question: true, answer: { include: { question: true } } },
+      }),
+    );
+
+    return {
+      questionSlug: res?.question?.slug ?? res?.answer?.question?.slug,
+      answerId: res?.answerId ?? undefined,
+    };
+  } else if (commentTypes.includes(activityType)) {
+    const [res] = await safePromise(
+      prisma.comment.findUnique({
+        where: { id: relatedId },
+        include: { question: true, answer: { include: { question: true } } },
+      }),
+    );
+
+    return {
+      questionSlug: res?.question?.slug ?? res?.answer?.question?.slug,
+      answerId: res?.answerId ?? undefined,
+      commentId: res?.id,
+    };
+  }
+
+  return {};
+};
+
+const questionTypes: ActivityType[] = ["QUESTION_POSTED"];
+const answerTypes: ActivityType[] = ["ANSWER_ACCEPTED", "ANSWER_POSTED"];
+const voteTypes: ActivityType[] = ["QUESTION_UPVOTED", "ANSWER_UPVOTED"];
+const commentTypes: ActivityType[] = ["COMMENT_POSTED"];

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { ActivityLog, ActivityType } from "@prisma/client";
 import { format, formatDistanceToNow } from "date-fns";
@@ -15,6 +16,7 @@ import {
 
 import { DATETIME_FORMATS } from "@/config/constants";
 import { IconValue } from "@/types";
+import TimelineActivityDescription from "@/app/my-dashboard/@timeline/_components/timeline-activity-description";
 
 const TimelineActivitySection: React.FC<ActivityLog> = ({
   activityType,
@@ -44,9 +46,9 @@ const TimelineActivitySection: React.FC<ActivityLog> = ({
           {format(createdAt, DATETIME_FORMATS.SHORT_MONTH_NAME)}
         </span>
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-        {description}
-      </h3>
+      <TimelineActivityDescription
+        {...{ activityType, description, relatedId }}
+      />
     </li>
   );
 };
