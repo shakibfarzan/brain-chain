@@ -33,6 +33,7 @@ model User {
   accounts        Account[]
   sessions        Session[]
   UserBadge       UserBadge[]
+  ActivityLog     ActivityLog[]
 }
 
 model Question {
@@ -161,4 +162,26 @@ model UserBadge {
   earnedAt DateTime @default(now())
   user     User     @relation(fields: [userId], references: [id])
   badge    Badge    @relation(fields: [badgeId], references: [id])
+}
+
+enum ActivityType {
+  QUESTION_POSTED // User posted a question
+  ANSWER_POSTED // User posted an answer
+  COMMENT_POSTED // User posted a comment
+  QUESTION_UPVOTED // User upvoted a question
+  ANSWER_UPVOTED // User upvoted an answer
+  ANSWER_ACCEPTED // User's answer was accepted
+  BADGE_EARNED // User earned a badge
+  PROFILE_UPDATED // User updated their profile
+  USER_REGISTERED // User created an account
+}
+
+model ActivityLog {
+  id           String       @id @default(cuid())
+  userId       String
+  activityType ActivityType
+  relatedId    String? // ID of the related entity (optional for some activities)
+  description  String
+  createdAt    DateTime     @default(now())
+  user         User         @relation(fields: [userId], references: [id])
 }

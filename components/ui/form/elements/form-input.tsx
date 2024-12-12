@@ -3,7 +3,7 @@ import { Input } from "@nextui-org/input";
 import React from "react";
 
 import { FormItemProps } from "@/components/ui/form/form.types";
-import useOnChange from "@/components/ui/form/hooks/useOnChange";
+import useOnChange from "@/components/ui/form/hooks/use-on-change";
 import { useCustomForm } from "@/components/ui/form/custom-form-provider";
 
 type Props = Omit<
@@ -29,6 +29,9 @@ const FormInput: React.FC<Props> = ({
   return (
     <Input
       {...rest}
+      classNames={{
+        inputWrapper: "bg-default-400/20 dark:bg-default-500/20",
+      }}
       errorMessage={errorMessage?.[0]}
       isInvalid={!!errorMessage}
       labelPlacement="outside"

@@ -1,17 +1,22 @@
 import React from "react";
 
 import { getCommentsOfCurrentUser } from "@/db/comments";
-import CardsContainer from "@/app/my-dashboard/@tabs/_components/cards-container";
 import CommentCard from "@/app/my-dashboard/@tabs/_components/comment-card";
 import NotFoundResults from "@/app/my-dashboard/@tabs/_components/not-found-results";
+import { PropsWithParams } from "@/types/app-params";
+import TabContentContainer from "@/app/my-dashboard/@tabs/_components/tab-content-container";
+import { SEARCH_PARAMS_KEYS } from "@/config/constants";
 
-const MyDashboardCommentsPage = async () => {
-  const { data } = await getCommentsOfCurrentUser();
-  const notFoundComments = data && !data.length;
+const PAGE_SIZE = 5;
+
+const MyDashboardCommentsPage = async ({ searchParams }: PropsWithParams) => {
+  const { [SEARCH_PARAMS_KEYS.TABS_PAGE]: page } = await searchParams;
+  const { data } = await getCommentsOfCurrentUser(Number(page ?? 1), PAGE_SIZE);
+  const notFoundComments = data && !data.count;
 
   return (
-    <CardsContainer>
-      {data?.map((d) => (
+    <TabContentContainer pageSize={PAGE_SIZE} totalCount={data?.count ?? 0}>
+      {data?.results.map((d) => (
         <CommentCard
           {...d}
           key={d.id}
@@ -20,7 +25,7 @@ const MyDashboardCommentsPage = async () => {
         />
       ))}
       {notFoundComments && <NotFoundResults title="No comments found :(" />}
-    </CardsContainer>
+    </TabContentContainer>
   );
 };
 

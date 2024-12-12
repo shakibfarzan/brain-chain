@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from "react";
+import { Divider } from "@nextui-org/divider";
 
 type Props = PropsWithChildren<{
   tabs: React.ReactNode;
@@ -19,12 +20,16 @@ const MyDashboardLayout = ({
   return (
     <div>
       {header}
-      {tabs}
+      <div className="w-full flex flex-col items-center bg-black bg-opacity-10 rounded-b-xl px-2 pt-2 pb-4">
+        {tabs}
+      </div>
       {children}
+      <Divider className="my-4" />
       <div className="w-full flex flex-col sm:flex-row gap-4 my-8">
         {statistics}
         {badges}
       </div>
+      <Divider className="my-4" />
       {timeline}
     </div>
   );

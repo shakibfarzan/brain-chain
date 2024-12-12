@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 
 import { FormAction } from "@/components/ui/form/form.types";
 import { safePromise } from "@/utils";
-import updateFormActionErrors from "@/components/ui/form/utils/updateFormActionErrors";
+import updateFormActionErrors from "@/components/ui/form/utils/update-form-action-errors";
 import { signIn } from "@/auth";
-import { loginFormSchema } from "@/app/(auth)/formSchemas";
+import { loginFormSchema } from "@/app/(auth)/form-schemas";
 
 export const loginFormAction: FormAction = async (prevState, formData) => {
   const actionType = formData.get("action");

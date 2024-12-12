@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { Prisma } from ".prisma/client";
-import dayjs from "dayjs";
+import { addMinutes, isBefore } from "date-fns";
 
 import { safePromise } from "@/utils";
 import prisma from "@/db";
@@ -263,9 +263,10 @@ const data: Prisma.BadgeCreateManyInput[] = [
     {
       for (const userAnswer of userAnswers ?? []) {
         const questionCreatedAt = userAnswer.question.createdAt;
-        const isFewerThan15 = dayjs(questionCreatedAt)
-          .add(15, "minutes")
-          .isBefore(dayjs(userAnswer.createdAt), "minutes");
+        const isFewerThan15 = isBefore(
+          addMinutes(questionCreatedAt, 15),
+          userAnswer.createdAt,
+        );
 
         if (isFewerThan15 && earlyBirdBadge?.id) {
           const [, err] = await safePromise(

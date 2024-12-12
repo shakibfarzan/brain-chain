@@ -3,9 +3,8 @@ import React from "react";
 import { Comment } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { Chip } from "@nextui-org/chip";
-import dayjs from "dayjs";
+import { format } from "date-fns";
 
 import { useReplaceParams } from "@/hooks";
 import routes from "@/config/routes";
@@ -46,27 +45,26 @@ const CommentCard: React.FC<Props> = ({
 
   return (
     <Card
-      isHoverable
+      isBlurred
       isPressable
-      className="overflow-visible mb-4 w-full"
+      className="overflow-visible mb-4 w-full shadow-small transition hover:scale-[1.01]"
       onPress={onPress}
     >
       <CardHeader className="flex flex-col items-start">
         <div className="flex gap-4 justify-between w-full items-center">
-          <ScrollShadow
-            hideScrollBar
-            className="font-semibold text-start text-nowrap"
-          >
+          <div className="font-semibold text-start">
             On: {answer?.content ?? question?.title}
-          </ScrollShadow>
+          </div>
           <Chip variant="shadow">{answer ? "Answer" : "Question"}</Chip>
         </div>
-        {answer && <p className="text-sm">Question: {question?.title}</p>}
+        {answer && (
+          <p className="text-sm text-start">Question: {question?.title}</p>
+        )}
       </CardHeader>
       <CardBody className="font-extralight text-lg">{content}</CardBody>
       <CardFooter className="text-sm">
         Posted on{" "}
-        {dayjs(createdAt).format(DATETIME_FORMATS.DATE_DASH_SEPARATOR)}
+        {format(createdAt ?? "", DATETIME_FORMATS.DATE_DASH_SEPARATOR)}
       </CardFooter>
     </Card>
   );

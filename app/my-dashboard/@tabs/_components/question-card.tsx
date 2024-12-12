@@ -2,8 +2,8 @@
 import React from "react";
 import { Question } from "@prisma/client";
 import { Card, CardBody, CardFooter } from "@nextui-org/card";
-import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 import { DATETIME_FORMATS } from "@/config/constants";
 import { useReplaceParams } from "@/hooks";
@@ -29,9 +29,9 @@ const QuestionCard: React.FC<Props> = ({
 
   return (
     <Card
-      isHoverable
+      isBlurred
       isPressable
-      className="overflow-visible mb-4"
+      className="overflow-visible mb-4 shadow-small transition hover:scale-[1.01]"
       onPress={() => {
         if (slug) push(manual(routes.QUESTIONS.DETAIL, { params: [slug] }));
       }}
@@ -40,7 +40,7 @@ const QuestionCard: React.FC<Props> = ({
         <p className="text-xl">{title}</p>
         <p className="text-sm">
           Posted on{" "}
-          {dayjs(createdAt).format(DATETIME_FORMATS.DATE_DASH_SEPARATOR)}
+          {format(createdAt ?? "", DATETIME_FORMATS.DATE_DASH_SEPARATOR)}
         </p>
       </CardBody>
       <CardFooter className="flex justify-between items-center">
