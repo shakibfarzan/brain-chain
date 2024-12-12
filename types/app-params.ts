@@ -3,6 +3,6 @@ export type AppParams = {
 };
 
 export type PropsWithParams<T = unknown> = {
-  params: AppParams;
+  params: Promise<AppParams>;
   searchParams: Promise<Record<string, string>>;
 } & T;
