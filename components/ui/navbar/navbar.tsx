@@ -6,8 +6,8 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
 import Image from "next/image";
-import { Input } from "@nextui-org/input";
 import { SearchIcon } from "@nextui-org/shared-icons";
+import { Input } from "@nextui-org/input";
 
 import Logo from "@/public/logo.svg";
 import NavItems from "@/components/ui/navbar/nav-items";

@@ -1,11 +1,14 @@
 import React from "react";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 
-import { auth } from "@/auth";
 import { H2, UploadImage } from "@/components/basic";
+import { updateProfilePicture } from "@/app/edit-profile/actions";
+import { getImageUrl } from "@/app/actions";
+import { getCurrentUser } from "@/db/user";
 
 const ProfilePicture = async () => {
-  const session = await auth();
+  const { data: user } = await getCurrentUser();
+  const imageUrl = await getImageUrl(user?.image ?? "");
 
   return (
     <Card isBlurred className="shadow-small p-2 w-full">
@@ -15,8 +18,9 @@ const ProfilePicture = async () => {
       </CardHeader>
       <CardBody>
         <UploadImage
-          initialPreview={session?.user?.image ?? undefined}
+          initialPreview={imageUrl}
           previewClassName="w-32 h-32"
+          onSave={updateProfilePicture}
         />
       </CardBody>
     </Card>

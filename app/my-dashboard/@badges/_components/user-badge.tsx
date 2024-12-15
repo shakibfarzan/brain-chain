@@ -1,6 +1,4 @@
 import React from "react";
-import { Tooltip } from "@nextui-org/tooltip";
-import { Chip } from "@nextui-org/chip";
 import {
   faBook,
   faComments,
@@ -13,6 +11,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faEarlybirds } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tooltip } from "@nextui-org/tooltip";
+import { Chip } from "@nextui-org/chip";
 
 import { IconValue } from "@/types";
 

@@ -30,6 +30,7 @@ const CustomForm: React.FC<Props> = ({
     function effectOnSuccess() {
       if (state?.isSuccess) onSuccess?.();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [state?.isSuccess],
   );
 
