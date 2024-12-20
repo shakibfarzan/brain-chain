@@ -12,6 +12,7 @@ import prisma from "@/db";
 import { DbReturnType } from "@/types";
 import { auth } from "@/auth";
 import { getCurrentUserId } from "@/db/db.utils";
+import { profileInformationSchema } from "@/app/edit-profile/form-schemas";
 
 const userSchema = z.object({
   email: emailSchema,
@@ -127,4 +128,31 @@ export const updateUserImage = async (
   );
 
   return { data: res, dbError: err };
+};
+
+type UpdateUserInfoInput = {
+  name: string;
+  bio?: string;
+};
+
+export const updateUserInformation = async (
+  userInfo: UpdateUserInfoInput,
+): Promise<DbReturnType<User>> => {
+  const {
+    success,
+    data: parsedData,
+    error: schemaError,
+  } = profileInformationSchema.safeParse(userInfo);
+
+  if (success) {
+    const session = await auth();
+    const [res, err] = await safePromise(
+      prisma.user.update({
+        where: { email: session?.user?.email ?? "" },
+        data: { ...parsedData },
+      }),
+    );
+
+    return { data: res, dbError: err };
+  } else return { schemaError };
 };

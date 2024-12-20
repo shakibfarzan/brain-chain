@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import { useCustomForm } from "@/components/ui/form/custom-form-provider";
 
@@ -26,6 +26,8 @@ const useOnChange = <T = any>(
 
   const value: OnChange<T>["value"] = useMemo(
     () => (isRealTime ? realTimeData[fieldName] : undefined),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [realTimeData[fieldName]],
   );
 
@@ -47,6 +49,7 @@ const useOnChange = <T = any>(
         }));
       } else setErrors((prev) => ({ ...prev, [fieldName]: undefined }));
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [realTimeData[fieldName]],
   );
 

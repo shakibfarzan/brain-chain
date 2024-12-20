@@ -1,15 +1,16 @@
 import React from "react";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { CardBody, CardHeader } from "@nextui-org/card";
 
 import { getBadgesOfCurrentUser } from "@/db/badges";
 import UserBadge from "@/app/my-dashboard/@badges/_components/user-badge";
+import { CardPagePaper } from "@/components/basic";
 
 const Badges = async () => {
   const { data } = await getBadgesOfCurrentUser();
   const notFoundAnyBadges = data && !data.length;
 
   return (
-    <Card isBlurred className="w-full sm:w-1/2 p-2 shadow-small">
+    <CardPagePaper className="sm:w-1/2">
       <CardHeader className="text-2xl font-semibold">Badges</CardHeader>
       <CardBody className="flex flex-wrap flex-row gap-4">
         {data?.map((bg) => (
@@ -21,7 +22,7 @@ const Badges = async () => {
         ))}
         {notFoundAnyBadges && <p>You have not earned any badges :(</p>}
       </CardBody>
-    </Card>
+    </CardPagePaper>
   );
 };
 

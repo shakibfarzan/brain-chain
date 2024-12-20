@@ -1,5 +1,5 @@
 "use client";
-import {
+import React, {
   createContext,
   Dispatch,
   PropsWithChildren,
@@ -41,7 +41,7 @@ const CustomFormProvider: React.FC<Props> = ({
 }) => {
   const [realTimeData, setRealTimeData] = useState<
     CustomFormContextType["realTimeData"]
-  >(defaultFormValues ?? {});
+  >({});
   const [errors, setErrors] = useState<CustomFormContextType["errors"]>({});
 
   useEffect(
@@ -49,6 +49,13 @@ const CustomFormProvider: React.FC<Props> = ({
       if (state) setErrors(state?.errors);
     },
     [state],
+  );
+
+  useEffect(
+    function updateFormDataByDefault() {
+      if (defaultFormValues) setRealTimeData(defaultFormValues);
+    },
+    [defaultFormValues],
   );
 
   return (

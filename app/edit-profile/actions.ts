@@ -3,10 +3,13 @@ import { UploadResponse } from "pinata";
 import { revalidatePath } from "next/cache";
 
 import { pinata } from "@/utils/config";
-import { updateUserImage } from "@/db/user";
+import { updateUserImage, updateUserInformation } from "@/db/user";
 import { unstable_update } from "@/auth";
 import { safePromise } from "@/utils";
 import routes from "@/config/routes";
+import { FormAction } from "@/components/ui/form/form.types";
+import { profileInformationSchema } from "@/app/edit-profile/form-schemas";
+import updateFormActionErrors from "@/components/ui/form/utils/update-form-action-errors";
 
 export const updateProfilePicture = async (
   file: File | null,
@@ -22,4 +25,32 @@ export const updateProfilePicture = async (
     await unstable_update({ user: { image: res.data.image } });
   revalidatePath(routes.MY_DASHBOARD.EDIT_PROFILE, "layout");
   revalidatePath(routes.HOME);
+};
+
+export const updateProfileInformationAction: FormAction = async (
+  prevState,
+  formData,
+) => {
+  const {
+    success,
+    data,
+    error: schemaError,
+  } = profileInformationSchema.safeParse(Object.fromEntries(formData));
+
+  if (!success)
+    return updateFormActionErrors(
+      prevState,
+      schemaError?.flatten().fieldErrors,
+    );
+  const [, error] = await safePromise(updateUserInformation(data));
+
+  if (error)
+    return updateFormActionErrors(
+      prevState,
+      undefined,
+      "bio",
+      error?.cause?.err?.message,
+    );
+
+  return { ...prevState, isSuccess: true };
 };

@@ -1,16 +1,25 @@
 "use client";
-import React, { useActionState, useEffect } from "react";
+import React, { ReactNode, useActionState, useEffect } from "react";
 import Form from "next/form";
+import { FormStatus, useFormStatus } from "react-dom";
 
 import CustomFormProvider from "@/components/ui/form/custom-form-provider";
 import { ActionState, FormState } from "@/components/ui/form/form.types";
+
+type ChildrenProps = {
+  children: ReactNode | ((formStatus: FormStatus) => ReactNode);
+};
 
 type Props = {
   action: Parameters<ActionState>[0];
   initialState?: Parameters<ActionState>[1];
   onSuccess?: () => void;
 } & React.ComponentProps<typeof CustomFormProvider> &
-  Omit<React.ComponentProps<typeof Form>, "action" | "defaultValue">;
+  Omit<
+    React.ComponentProps<typeof Form>,
+    "action" | "defaultValue" | "children"
+  > &
+  ChildrenProps;
 
 const CustomForm: React.FC<Props> = ({
   children,
@@ -41,10 +50,17 @@ const CustomForm: React.FC<Props> = ({
       state={state}
     >
       <Form {...formProps} action={formAction}>
-        {children}
+        <FormStatusWrapper>{children}</FormStatusWrapper>
       </Form>
     </CustomFormProvider>
   );
 };
 
 export default CustomForm;
+
+const FormStatusWrapper: React.FC<ChildrenProps> = ({ children }) => {
+  const isChildrenFunction = typeof children === "function";
+  const formStatus = useFormStatus();
+
+  return isChildrenFunction ? children(formStatus) : children;
+};

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { CardBody, CardHeader } from "@nextui-org/card";
 import { ActivityType } from "@prisma/client";
 
 import TimelineFilters from "@/app/my-dashboard/@timeline/_components/timeline-filters";
@@ -9,6 +9,7 @@ import { PropsWithParams } from "@/types/app-params";
 import { SEARCH_PARAMS_KEYS } from "@/config/constants";
 import { OrderType } from "@/types";
 import { ACTIVITIES_PAGE_SIZE } from "@/app/my-dashboard/@timeline/timeline.constans";
+import { CardPagePaper } from "@/components/basic";
 
 const ActivityTimeline = async ({ searchParams }: PropsWithParams) => {
   const {
@@ -24,7 +25,7 @@ const ActivityTimeline = async ({ searchParams }: PropsWithParams) => {
   );
 
   return (
-    <Card isBlurred className="shadow-small p-2 w-full">
+    <CardPagePaper>
       <CardHeader className="text-2xl font-semibold">
         Activity Timeline
       </CardHeader>
@@ -32,7 +33,7 @@ const ActivityTimeline = async ({ searchParams }: PropsWithParams) => {
         <TimelineFilters />
         <TimelineActivitiesList data={data} />
       </CardBody>
-    </Card>
+    </CardPagePaper>
   );
 };
 
