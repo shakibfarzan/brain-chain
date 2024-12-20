@@ -7,14 +7,20 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { safePromise } from "@/utils";
 import prisma from "@/db";
+import { createUserRegisteredActivity } from "@/db/activity-log";
 
 type CredentialsParams = { email: string; password: string };
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   session: {
     strategy: "jwt",
   },
   adapter: PrismaAdapter(prisma),
+  events: {
+    signIn: async ({ isNewUser, user }) => {
+      if (isNewUser && user.id) await createUserRegisteredActivity(user.id);
+    },
+  },
   providers: [
     Credentials({
       credentials: {

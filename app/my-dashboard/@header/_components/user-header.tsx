@@ -2,13 +2,23 @@ import React from "react";
 import { User as UserType } from "@prisma/client";
 import { User } from "@nextui-org/user";
 
+import H1 from "@/components/basic/h1";
+import { getImageUrl } from "@/app/actions";
+
 type Props = Partial<Pick<UserType, "image" | "name" | "bio" | "reputation">>;
 
-const UserHeader: React.FC<Props> = ({ image, name, bio, reputation }) => {
+const UserHeader: React.FC<Props> = async ({
+  image,
+  name,
+  bio,
+  reputation,
+}) => {
+  const imageUrl = await getImageUrl(image ?? "");
+
   return (
     <User
       avatarProps={{
-        src: image ?? undefined,
+        src: imageUrl ?? undefined,
         className: "md:!size-32 !size-20",
       }}
       description={
@@ -17,7 +27,7 @@ const UserHeader: React.FC<Props> = ({ image, name, bio, reputation }) => {
           <p className="md:text-base text-sm">Reputation: {reputation}</p>
         </div>
       }
-      name={<p className="md:text-3xl text-xl">{name}</p>}
+      name={<H1>{name}</H1>}
     />
   );
 };

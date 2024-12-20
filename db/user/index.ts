@@ -100,3 +100,31 @@ export const getCurrentUserStatistics = async (): Promise<
     dbError: qErr ?? aErr ?? cErr ?? vErr,
   };
 };
+
+export const currentUserHasPassword = async (): Promise<
+  DbReturnType<boolean>
+> => {
+  const session = await auth();
+  const [res, err] = await safePromise(
+    prisma.user.findUnique({
+      where: { email: session?.user?.email ?? "" },
+      select: { password: true },
+    }),
+  );
+
+  return { data: !!res?.password, dbError: err };
+};
+
+export const updateUserImage = async (
+  image: string | null,
+): Promise<DbReturnType<User>> => {
+  const session = await auth();
+  const [res, err] = await safePromise(
+    prisma.user.update({
+      where: { email: session?.user?.email ?? "" },
+      data: { image },
+    }),
+  );
+
+  return { data: res, dbError: err };
+};

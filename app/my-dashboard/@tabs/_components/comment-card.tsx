@@ -2,9 +2,9 @@
 import React from "react";
 import { Comment } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
-import { format } from "date-fns";
 
 import { useReplaceParams } from "@/hooks";
 import routes from "@/config/routes";

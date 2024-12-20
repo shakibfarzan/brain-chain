@@ -4,3 +4,4 @@ export { default as useMediaQuery } from "./use-media-query";
 export { default as useAppParams } from "./use-app-params";
 export { default as useReplaceParams } from "./use-replace-params";
 export { default as useFetchData } from "./use-fetch-data";
+export { default as useDelayedValue } from "./use-delayed-value";

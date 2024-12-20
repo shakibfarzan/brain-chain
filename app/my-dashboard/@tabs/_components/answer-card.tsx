@@ -2,11 +2,11 @@
 import React from "react";
 import { Answer } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import clsx from "clsx";
-import { Chip } from "@nextui-org/chip";
-import { Tooltip } from "@nextui-org/tooltip";
 import { format } from "date-fns";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
+import { Tooltip } from "@nextui-org/tooltip";
+import { Chip } from "@nextui-org/chip";
 
 import { useReplaceParams } from "@/hooks";
 import routes from "@/config/routes";

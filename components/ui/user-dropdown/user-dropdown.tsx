@@ -1,42 +1,41 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
+import { User as NextUIUser } from "@nextui-org/user";
+import clsx from "clsx";
+import Link from "next/link";
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
-import { User as NextUIUser } from "@nextui-org/user";
-import clsx from "clsx";
 import { Avatar } from "@nextui-org/avatar";
-import Link from "next/link";
 
-import { useAuth, useIsCurrentPath } from "@/hooks";
+import { useAuth, useDelayedValue, useIsCurrentPath } from "@/hooks";
 import routes from "@/config/routes";
+import useCurrentUser from "@/hooks/use-current-user";
 
 const UserDropdown: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isCurrentPath = useIsCurrentPath();
   const [isOpen, setIsOpen] = React.useState(false);
-  const { session, signOut } = useAuth();
+  const { signOut } = useAuth();
+  const { data: user } = useCurrentUser();
+  const bgOpacity = useDelayedValue("bg-opacity-40", {
+    triggerCondition: isOpen,
+    delay: 1000,
+  });
+
   const avatarProps = {
     isBordered: true,
-    src: session?.user?.image ?? undefined,
+    src: user?.image ?? undefined,
   };
-
-  useEffect(() => {
-    if (isOpen)
-      ref.current?.children[0]?.children[0].classList.add(
-        "!opacity-100",
-        "!scale-100",
-      );
-  }, [isOpen]);
 
   return (
     <Dropdown
       ref={ref}
       classNames={{
-        content: "bg-opacity-40 backdrop-blur-lg",
+        content: clsx("backdrop-blur-lg", bgOpacity),
       }}
       isOpen={isOpen}
       placement="bottom-end"
@@ -48,8 +47,8 @@ const UserDropdown: React.FC = () => {
             as="button"
             avatarProps={avatarProps}
             className={clsx("transition-transform md:flex hidden")}
-            description={session?.user?.email}
-            name={session?.user?.name}
+            description={user?.email}
+            name={user?.name}
           />
           <Avatar
             {...avatarProps}
@@ -60,7 +59,6 @@ const UserDropdown: React.FC = () => {
           />
         </div>
       </DropdownTrigger>
-      {/* @ts-ignore */}
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownItem
           key="profile"
@@ -68,7 +66,7 @@ const UserDropdown: React.FC = () => {
           variant="light"
         >
           <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">{session?.user?.email}</p>
+          <p className="font-semibold">{user?.email}</p>
         </DropdownItem>
         <DropdownItem
           key="my_profile"
@@ -83,7 +81,7 @@ const UserDropdown: React.FC = () => {
         <DropdownItem
           key="logout"
           color="danger"
-          onClick={async () => await signOut()}
+          onPress={async () => await signOut()}
         >
           Log Out
         </DropdownItem>

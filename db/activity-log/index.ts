@@ -1,10 +1,12 @@
-import { ActivityLog, ActivityType } from "@prisma/client";
+import { ActivityLog, ActivityType, Prisma } from "@prisma/client";
+import { format } from "date-fns";
 
 import { getCurrentUserId } from "@/db/db.utils";
 import prisma from "@/db";
 import { safePromise } from "@/utils";
 import { DbReturnType, OrderType } from "@/types";
 import { PaginatedReturnType } from "@/types/db-return-type";
+import { DATETIME_FORMATS } from "@/config/constants";
 
 export const getActivityLogsOfCurrentUser = async (
   page?: number,
@@ -94,3 +96,19 @@ const questionTypes: ActivityType[] = ["QUESTION_POSTED"];
 const answerTypes: ActivityType[] = ["ANSWER_ACCEPTED", "ANSWER_POSTED"];
 const voteTypes: ActivityType[] = ["QUESTION_UPVOTED", "ANSWER_UPVOTED"];
 const commentTypes: ActivityType[] = ["COMMENT_POSTED"];
+
+export const createUserRegisteredActivity = async (
+  userId: string,
+): Promise<DbReturnType<Omit<Prisma.ActivityLogCreateInput, "user">>> => {
+  const [res, err] = await safePromise(
+    prisma.activityLog.create({
+      data: {
+        userId,
+        activityType: "USER_REGISTERED",
+        description: `User registered on ${format(new Date(), DATETIME_FORMATS.DATE_DASH_SEPARATOR)}`,
+      },
+    }),
+  );
+
+  return { data: res, dbError: err };
+};

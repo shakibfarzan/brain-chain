@@ -13,7 +13,7 @@ const NavAuthButtons: React.FC = () => {
       <Button
         color="primary"
         variant="light"
-        onClick={() => push(routes.AUTH.LOG_IN)}
+        onPress={() => push(routes.AUTH.LOG_IN)}
       >
         Log in
       </Button>
@@ -21,7 +21,7 @@ const NavAuthButtons: React.FC = () => {
         color="primary"
         href={routes.AUTH.SIGN_UP}
         variant="flat"
-        onClick={() => push(routes.AUTH.SIGN_UP)}
+        onPress={() => push(routes.AUTH.SIGN_UP)}
       >
         Sign up
       </Button>
