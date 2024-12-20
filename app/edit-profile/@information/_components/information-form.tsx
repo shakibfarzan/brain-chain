@@ -11,7 +11,7 @@ import useCurrentUser from "@/hooks/use-current-user";
 import { FormFunctionalChildren } from "@/components/ui/form/form.types";
 
 const InformationForm = () => {
-  const { data: user } = useCurrentUser();
+  const { data: user, reload } = useCurrentUser();
 
   return (
     <CustomForm
@@ -19,6 +19,7 @@ const InformationForm = () => {
       className="flex flex-col gap-6"
       defaultFormValues={{ name: user?.name, bio: user?.bio }}
       schema={profileInformationSchema}
+      onSuccess={async () => await reload()}
     >
       {
         (({ pending }) => (
@@ -32,6 +33,7 @@ const InformationForm = () => {
               placeholder="Enter your name"
             />
             <FormTextarea
+              isRealTime
               fieldName="bio"
               label="Bio"
               minRows={4}
