@@ -20,7 +20,7 @@ export const loginFormAction: FormAction = async (prevState, formData) => {
         result?.error?.flatten().fieldErrors,
       );
     else {
-      const [_, error] = await safePromise(
+      const [, error] = await safePromise(
         signIn("credentials", { ...result.data, redirect: false }),
       );
 
@@ -38,5 +38,5 @@ export const loginFormAction: FormAction = async (prevState, formData) => {
   }
 
   // need snackbar
-  return prevState;
+  return { ...prevState, isSuccess: true };
 };

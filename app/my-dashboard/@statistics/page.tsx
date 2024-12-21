@@ -1,16 +1,14 @@
 import React from "react";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { CardBody, CardHeader } from "@nextui-org/card";
 
 import { getCurrentUserStatistics } from "@/db/user";
+import { CardPagePaper } from "@/components/basic";
 
 const UserStatistics = async () => {
   const { data } = await getCurrentUserStatistics();
 
   return (
-    <Card
-      isBlurred
-      className="w-full sm:w-1/2 overflow-visible p-2 shadow-small"
-    >
+    <CardPagePaper className="sm:w-1/2 overflow-visible">
       <CardHeader className="text-2xl font-semibold">
         User Statistics
       </CardHeader>
@@ -32,7 +30,7 @@ const UserStatistics = async () => {
           title={data?.upvoteReceived.toString() ?? ""}
         />
       </CardBody>
-    </Card>
+    </CardPagePaper>
   );
 };
 

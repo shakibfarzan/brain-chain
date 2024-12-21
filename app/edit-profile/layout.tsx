@@ -5,15 +5,15 @@ import { currentUserHasPassword } from "@/db/user";
 type Props = PropsWithChildren<{
   information: React.ReactNode;
   picture: React.ReactNode;
-  "set-password": React.ReactNode;
-  "update-password": React.ReactNode;
+  setpassword: React.ReactNode;
+  updatepassword: React.ReactNode;
 }>;
 
 const EditProfileLayout = async ({
   information,
   picture,
-  "update-password": updatePassword,
-  "set-password": setPassword,
+  updatepassword,
+  setpassword,
   children,
 }: Props) => {
   const { data: hasPassword } = await currentUserHasPassword();
@@ -25,7 +25,7 @@ const EditProfileLayout = async ({
         {information}
         <div className="flex flex-col gap-4 w-full md:w-1/2">
           {picture}
-          {hasPassword ? updatePassword : setPassword}
+          {hasPassword ? updatepassword : setpassword}
         </div>
       </div>
     </div>

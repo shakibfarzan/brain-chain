@@ -6,6 +6,7 @@ type UseFetchData<T> = {
   isLoading: boolean;
   data: T | undefined;
   error: any;
+  reload: () => Promise<void>;
 };
 
 type InputAction<T> = (...args: any[]) => Promise<T>;
@@ -22,20 +23,24 @@ const useFetchData = <T>(
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
+  const reload = async () => {
+    setIsLoading(true);
+    const [res, err] = await safePromise(inputAction(...args));
+
+    setData(res);
+    setError(err);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     if (options?.loadCondition === false) return;
     (async () => {
-      setIsLoading(true);
-      const [res, err] = await safePromise(inputAction(...args));
-
-      setData(res);
-      setError(err);
-      setIsLoading(false);
+      await reload();
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options?.loadCondition]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, reload };
 };
 
 export default useFetchData;

@@ -1,28 +1,24 @@
 "use client";
-import { Input } from "@nextui-org/input";
 import React from "react";
+import { Textarea } from "@nextui-org/input";
 
 import { FormItemProps } from "@/components/ui/form/form.types";
 import useCommonInputProps from "@/components/ui/form/hooks/use-common-input-props";
 
 type Props = Omit<
-  React.ComponentProps<typeof Input>,
+  React.ComponentProps<typeof Textarea>,
   "onChange" | "value" | "name" | "labelPlacement"
 > &
   FormItemProps;
 
-const FormInput: React.FC<Props> = ({
+const FormTextarea: React.FC<Props> = ({
   isRealTime = false,
   fieldName,
   ...rest
 }) => {
-  const commonProps = useCommonInputProps(
-    isRealTime,
-    fieldName,
-    !!rest.isClearable,
-  );
+  const commonProps = useCommonInputProps(isRealTime, fieldName);
 
-  return <Input {...rest} {...commonProps} />;
+  return <Textarea {...rest} {...commonProps} />;
 };
 
-export default FormInput;
+export default FormTextarea;

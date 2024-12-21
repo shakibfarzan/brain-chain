@@ -1,4 +1,6 @@
-import { useActionState } from "react";
+import React, { useActionState } from "react";
+
+import CustomForm from "@/components/ui/form/custom-form";
 
 export type ZodFieldErrors = {
   [x: string]: string[] | undefined;
@@ -16,3 +18,7 @@ export type FormState = { errors: ZodFieldErrors; isSuccess: boolean };
 export type ActionState = typeof useActionState<FormState, FormData>;
 
 export type FormAction = Parameters<ActionState>[0];
+
+export type FormFunctionalChildren = React.ComponentProps<
+  typeof CustomForm
+>["children"];
