@@ -19,7 +19,10 @@ const InformationForm = () => {
       className="flex flex-col gap-6"
       defaultFormValues={{ name: user?.name, bio: user?.bio }}
       schema={profileInformationSchema}
-      onSuccess={async () => await reload()}
+      onSuccess={async () => {
+        // need snackbar
+        await reload();
+      }}
     >
       {
         (({ pending }) => (
