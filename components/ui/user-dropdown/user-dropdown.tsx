@@ -21,11 +21,11 @@ const UserDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { signOut } = useAuth();
   const { data: user } = useCurrentUser();
+
   const bgOpacity = useDelayedValue("bg-opacity-40", {
     triggerCondition: isOpen,
     delay: 1000,
   });
-
   const avatarProps = {
     isBordered: true,
     src: user?.image ?? undefined,

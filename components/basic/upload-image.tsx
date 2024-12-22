@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FileRejection, useDropzone } from "react-dropzone";
 import clsx from "clsx";
@@ -18,10 +18,17 @@ const UploadImage: React.FC<Props> = ({
   onSave,
   saveText,
 }) => {
-  const [preview, setPreview] = useState<string | null>(initialPreview ?? null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [fileState, setFileState] = useState<File | null>(null);
   const [shouldShowSave, setShouldShowSave] = useState(false);
+
+  useEffect(
+    function initializePreview() {
+      setPreview(initialPreview ?? null);
+    },
+    [initialPreview],
+  );
 
   const onDrop = (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
     if (rejectedFiles.length) {

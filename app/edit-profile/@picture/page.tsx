@@ -1,16 +1,11 @@
 import React from "react";
 import { CardBody } from "@nextui-org/card";
 
-import { CardPagePaper, UploadImage } from "@/components/basic";
-import { updateProfilePicture } from "@/app/edit-profile/actions";
-import { getImageUrl } from "@/app/actions";
-import { getCurrentUser } from "@/db/user";
+import { CardPagePaper } from "@/components/basic";
 import ProfileCardHeader from "@/app/edit-profile/_components/profile-card-header";
+import UpdateProfilePicture from "@/app/edit-profile/@picture/_components/update-profile-picture";
 
-const ProfilePicture = async () => {
-  const { data: user } = await getCurrentUser();
-  const imageUrl = await getImageUrl(user?.image ?? "");
-
+const ProfilePicture = () => {
   return (
     <CardPagePaper>
       <ProfileCardHeader
@@ -18,11 +13,7 @@ const ProfilePicture = async () => {
         title="Profile Picture"
       />
       <CardBody>
-        <UploadImage
-          initialPreview={imageUrl ?? undefined}
-          previewClassName="w-32 h-32"
-          onSave={updateProfilePicture}
-        />
+        <UpdateProfilePicture />
       </CardBody>
     </CardPagePaper>
   );

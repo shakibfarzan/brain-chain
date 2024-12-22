@@ -15,7 +15,10 @@ const TimelineActivityDescription: React.FC<
   const [isHovered, setIsHovered] = React.useState(false);
   const { manual } = useReplaceParams();
   const { data } = useFetchData(fetchActivityLogRelatedData, {
-    args: [relatedId ?? "", activityType],
+    args: useMemo(
+      () => [relatedId ?? "", activityType],
+      [activityType, relatedId],
+    ),
     loadCondition: isHovered,
   });
 

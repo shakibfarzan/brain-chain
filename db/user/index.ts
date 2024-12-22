@@ -41,7 +41,7 @@ export const createUser = async (
 };
 
 export const getCurrentUser = async (): Promise<
-  DbReturnType<Omit<User, "password" | "id" | "isAdmin" | "updatedAt">>
+  DbReturnType<Omit<User, "password" | "id" | "updatedAt">>
 > => {
   const session = await auth();
   const [res, error] = await safePromise(
@@ -55,6 +55,7 @@ export const getCurrentUser = async (): Promise<
         reputation: true,
         createdAt: true,
         emailVerified: true,
+        isAdmin: true,
       },
     }),
   );

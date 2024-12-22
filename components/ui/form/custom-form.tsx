@@ -1,5 +1,10 @@
 "use client";
-import React, { ReactNode, useActionState, useEffect } from "react";
+import React, {
+  ReactNode,
+  startTransition,
+  useActionState,
+  useEffect,
+} from "react";
 import Form from "next/form";
 import { FormStatus, useFormStatus } from "react-dom";
 
@@ -31,13 +36,23 @@ const CustomForm: React.FC<Props> = ({
   ...formProps
 }) => {
   const [state, formAction] = useActionState<FormState, FormData>(
-    action,
+    async (state, payload: FormData | null) => {
+      if (!payload) return initialState;
+
+      return action(state, payload);
+    },
     initialState,
   );
 
   useEffect(
     function effectOnSuccess() {
-      if (state?.isSuccess) onSuccess?.();
+      if (state?.isSuccess) {
+        onSuccess?.();
+        startTransition(() => {
+          // @ts-ignore
+          formAction(null);
+        });
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state?.isSuccess],

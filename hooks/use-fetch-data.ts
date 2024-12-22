@@ -38,7 +38,7 @@ const useFetchData = <T>(
       await reload();
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options?.loadCondition]);
+  }, [options?.loadCondition, args]);
 
   return { data, isLoading, error, reload };
 };
