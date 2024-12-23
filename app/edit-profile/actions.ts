@@ -42,7 +42,7 @@ export const updateProfileInformationAction: FormAction = async (
       prevState,
       schemaError?.flatten().fieldErrors,
     );
-  const [, error] = await safePromise(updateUserInformation(data));
+  const [res, error] = await safePromise(updateUserInformation(data));
 
   if (error)
     return updateFormActionErrors(
@@ -51,6 +51,7 @@ export const updateProfileInformationAction: FormAction = async (
       "bio",
       error?.cause?.err?.message,
     );
+  if (res?.data) await unstable_update({ user: { ...res?.data } });
 
   return { ...prevState, isSuccess: true };
 };

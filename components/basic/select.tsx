@@ -20,7 +20,7 @@ const Select: React.FC<Props> = ({ optionProps, renderOption, ...rest }) => {
     <NextUISelect
       {...rest}
       aria-label="Select"
-      classNames={{ popoverContent: "bg-opacity-40 backdrop-blur-lg" }}
+      classNames={{ popoverContent: "bg-primary-50" }}
       variant="bordered"
     >
       {optionProps?.map((op) => (

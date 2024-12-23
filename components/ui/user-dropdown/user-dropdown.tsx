@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 
-import { useAuth, useDelayedValue, useIsCurrentPath } from "@/hooks";
+import { useAuth, useIsCurrentPath } from "@/hooks";
 import routes from "@/config/routes";
 import useCurrentUser from "@/hooks/use-current-user";
 
@@ -21,11 +21,6 @@ const UserDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { signOut } = useAuth();
   const { data: user } = useCurrentUser();
-
-  const bgOpacity = useDelayedValue("bg-opacity-40", {
-    triggerCondition: isOpen,
-    delay: 1000,
-  });
   const avatarProps = {
     isBordered: true,
     src: user?.image ?? undefined,
@@ -35,7 +30,7 @@ const UserDropdown: React.FC = () => {
     <Dropdown
       ref={ref}
       classNames={{
-        content: clsx("backdrop-blur-lg", bgOpacity),
+        content: "bg-primary-50",
       }}
       isOpen={isOpen}
       placement="bottom-end"
