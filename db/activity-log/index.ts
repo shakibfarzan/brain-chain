@@ -112,3 +112,20 @@ export const createUserRegisteredActivity = async (
 
   return { data: res, dbError: err };
 };
+
+export const createProfileUpdatedActivity = async (): Promise<
+  DbReturnType<Omit<Prisma.ActivityLogCreateInput, "user">>
+> => {
+  const userId = await getCurrentUserId();
+  const [res, err] = await safePromise(
+    prisma.activityLog.create({
+      data: {
+        userId: userId ?? "",
+        activityType: "PROFILE_UPDATED",
+        description: `Profile updated on ${format(new Date(), DATETIME_FORMATS.DATE_DASH_SEPARATOR)}`,
+      },
+    }),
+  );
+
+  return { data: res, dbError: err };
+};
