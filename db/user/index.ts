@@ -17,6 +17,7 @@ import {
   passwordsFormSchema,
   profileInformationSchema,
 } from "@/app/edit-profile/form-schemas";
+import { createProfileUpdatedActivity } from "@/db/activity-log";
 
 const userSchema = z.object({
   email: emailSchema,
@@ -129,6 +130,8 @@ export const updateUserImage = async (
     }),
   );
 
+  if (res) await createProfileUpdatedActivity();
+
   return { data: res, dbError: err };
 };
 
@@ -154,6 +157,8 @@ export const updateUserInformation = async (
         data: { ...parsedData },
       }),
     );
+
+    if (res) await createProfileUpdatedActivity();
 
     return { data: res, dbError: err };
   } else return { schemaError };
@@ -209,6 +214,8 @@ export const updateUserPassword = async ({
         data: { password: parsedData?.confirmPassword },
       }),
     );
+
+    if (res) await createProfileUpdatedActivity();
 
     return { data: res, dbError: err };
   } else return { schemaError };
