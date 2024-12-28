@@ -13,10 +13,18 @@ const useOnChange = <T = any>(
   fieldName: string,
   isClearable = false,
 ): OnChange<T> => {
-  const { realTimeData, setRealTimeData, schema, setErrors } = useCustomForm();
+  const {
+    realTimeData,
+    setRealTimeData,
+    schema,
+    setErrors,
+    shouldClearErrors,
+    setShouldClearErrors,
+  } = useCustomForm();
 
   const onChange: OnChange<T>["onChange"] = isRealTime
     ? (e) => {
+        if (shouldClearErrors) setShouldClearErrors(false);
         const currentValue = (e.target as any).value;
 
         if (currentValue !== undefined)

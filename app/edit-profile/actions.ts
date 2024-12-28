@@ -3,12 +3,19 @@ import { UploadResponse } from "pinata";
 import { revalidatePath } from "next/cache";
 
 import { pinata } from "@/utils/config";
-import { updateUserImage, updateUserInformation } from "@/db/user";
+import {
+  updateUserImage,
+  updateUserInformation,
+  updateUserPassword,
+} from "@/db/user";
 import { unstable_update } from "@/auth";
 import { safePromise } from "@/utils";
 import routes from "@/config/routes";
 import { FormAction } from "@/components/ui/form/form.types";
-import { profileInformationSchema } from "@/app/edit-profile/form-schemas";
+import {
+  passwordsFormSchema,
+  profileInformationSchema,
+} from "@/app/edit-profile/form-schemas";
 import updateFormActionErrors from "@/components/ui/form/utils/update-form-action-errors";
 
 export const updateProfilePicture = async (
@@ -42,16 +49,42 @@ export const updateProfileInformationAction: FormAction = async (
       prevState,
       schemaError?.flatten().fieldErrors,
     );
-  const [res, error] = await safePromise(updateUserInformation(data));
+  const { data: res, dbError } = await updateUserInformation(data);
 
-  if (error)
+  if (dbError)
+    return updateFormActionErrors(prevState, undefined, "bio", dbError);
+  if (res) await unstable_update({ user: { ...res } });
+
+  return { ...prevState, isSuccess: true };
+};
+
+export const updatePasswordsAction: FormAction = async (
+  prevState,
+  formData,
+) => {
+  const isUpdate = formData.get("actionType") === "update";
+
+  const {
+    success,
+    data,
+    error: schemaError,
+  } = passwordsFormSchema(isUpdate).safeParse(Object.fromEntries(formData));
+
+  if (!success)
+    return updateFormActionErrors(
+      prevState,
+      schemaError?.flatten().fieldErrors,
+    );
+
+  const { dbError } = await updateUserPassword(data);
+
+  if (dbError)
     return updateFormActionErrors(
       prevState,
       undefined,
-      "bio",
-      error?.cause?.err?.message,
+      dbError.field,
+      dbError.message,
     );
-  if (res?.data) await unstable_update({ user: { ...res?.data } });
 
   return { ...prevState, isSuccess: true };
 };

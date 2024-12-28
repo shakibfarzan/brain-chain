@@ -21,6 +21,10 @@ type CustomFormContextType = {
   setErrors: Dispatch<SetStateAction<ZodFieldErrors>>;
   schema?: z.ZodObject<any>;
   isSuccess: boolean;
+  shouldReset: boolean;
+  setReset: (value: boolean) => void;
+  shouldClearErrors: boolean;
+  setShouldClearErrors: Dispatch<SetStateAction<boolean>>;
 };
 
 const CustomFormContext = createContext<CustomFormContextType | undefined>(
@@ -31,6 +35,8 @@ type Props = PropsWithChildren<{
   schema?: z.ZodObject<any>;
   state?: FormState;
   defaultFormValues?: CustomFormContextType["realTimeData"];
+  shouldReset: boolean;
+  setReset: (value: boolean) => void;
 }>;
 
 const CustomFormProvider: React.FC<Props> = ({
@@ -38,7 +44,10 @@ const CustomFormProvider: React.FC<Props> = ({
   schema,
   state,
   defaultFormValues,
+  setReset,
+  shouldReset,
 }) => {
+  const [shouldClearErrors, setShouldClearErrors] = useState(false);
   const [realTimeData, setRealTimeData] = useState<
     CustomFormContextType["realTimeData"]
   >({});
@@ -58,6 +67,27 @@ const CustomFormProvider: React.FC<Props> = ({
     [defaultFormValues],
   );
 
+  useEffect(
+    function effectOnReset() {
+      if (shouldReset) {
+        setRealTimeData(defaultFormValues ?? {});
+        setShouldClearErrors(true);
+        setReset(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [shouldReset],
+  );
+
+  useEffect(
+    function effectForClearErrors() {
+      if (shouldClearErrors && Object.keys(errors).length) {
+        setErrors({});
+      }
+    },
+    [errors, shouldClearErrors],
+  );
+
   return (
     <CustomFormContext.Provider
       value={{
@@ -67,6 +97,10 @@ const CustomFormProvider: React.FC<Props> = ({
         setErrors,
         schema,
         isSuccess: !!state?.isSuccess,
+        setReset,
+        shouldReset,
+        setShouldClearErrors,
+        shouldClearErrors,
       }}
     >
       {children}

@@ -13,6 +13,15 @@ const prismaClientSingleton = () => {
 
           return query(args);
         },
+        async update({ args, query }) {
+          if (args.data.password)
+            args.data.password = await bcrypt.hash(
+              args.data.password as string,
+              10,
+            );
+
+          return query(args);
+        },
         async createMany({ args, query }) {
           if (Array.isArray(args.data)) {
             const data: UserCreateManyInput[] = [];
