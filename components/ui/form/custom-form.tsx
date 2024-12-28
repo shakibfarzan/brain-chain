@@ -1,5 +1,11 @@
 "use client";
-import React, { ReactNode, useActionState, useEffect } from "react";
+import React, {
+  ReactNode,
+  startTransition,
+  useActionState,
+  useEffect,
+  useState,
+} from "react";
 import Form from "next/form";
 import { FormStatus, useFormStatus } from "react-dom";
 
@@ -14,7 +20,11 @@ type Props = {
   action: Parameters<ActionState>[0];
   initialState?: Parameters<ActionState>[1];
   onSuccess?: () => void;
-} & React.ComponentProps<typeof CustomFormProvider> &
+  shouldResetAfterSuccess?: boolean;
+} & Omit<
+  React.ComponentProps<typeof CustomFormProvider>,
+  "shouldReset" | "setReset"
+> &
   Omit<
     React.ComponentProps<typeof Form>,
     "action" | "defaultValue" | "children"
@@ -27,17 +37,31 @@ const CustomForm: React.FC<Props> = ({
   action,
   onSuccess,
   initialState = { errors: {}, isSuccess: false },
+  shouldResetAfterSuccess = false,
   defaultFormValues,
   ...formProps
 }) => {
   const [state, formAction] = useActionState<FormState, FormData>(
-    action,
+    async (state, payload: FormData | null) => {
+      if (!payload) return initialState;
+
+      return action(state, payload);
+    },
     initialState,
   );
 
+  const [shouldReset, setShouldReset] = useState(false);
+
   useEffect(
     function effectOnSuccess() {
-      if (state?.isSuccess) onSuccess?.();
+      if (state?.isSuccess) {
+        startTransition(() => {
+          // @ts-ignore
+          formAction(null);
+        });
+        onSuccess?.();
+        setShouldReset(true);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state?.isSuccess],
@@ -47,6 +71,10 @@ const CustomForm: React.FC<Props> = ({
     <CustomFormProvider
       defaultFormValues={defaultFormValues}
       schema={schema}
+      setReset={(value) =>
+        shouldResetAfterSuccess ? setShouldReset(value) : {}
+      }
+      shouldReset={shouldReset}
       state={state}
     >
       <Form {...formProps} action={formAction}>

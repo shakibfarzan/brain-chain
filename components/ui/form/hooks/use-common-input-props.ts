@@ -22,7 +22,7 @@ const useCommonInputProps = (...params: InputParams) => {
     isInvalid: !!errorMessage,
     labelPlacement: "outside" as LabelPlacementType,
     name: params[1],
-    value: value as string,
+    value: value ? (value as string) : "",
     onChange,
     onClear,
   };

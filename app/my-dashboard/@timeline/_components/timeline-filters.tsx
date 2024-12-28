@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { Select } from "@/components/basic";
@@ -23,6 +23,21 @@ const TimelineFilters: React.FC = () => {
     { label: "Oldest First", value: "asc" },
   ];
 
+  const handleOnChange = (
+    searchParamKey: string,
+    e: ChangeEvent<HTMLSelectElement>,
+  ) => {
+    push(
+      manual(pathname, {
+        searchParams: {
+          [searchParamKey]: e.target.value,
+        },
+      }),
+      { scroll: false },
+    );
+    refresh();
+  };
+
   return (
     <div className="flex w-full items-center gap-2 flex-wrap justify-between">
       <Select
@@ -30,34 +45,16 @@ const TimelineFilters: React.FC = () => {
         optionProps={activityTypeOptionProps}
         placeholder="Filter by type"
         selectedKeys={activityType ? [activityType] : []}
-        onChange={(e) => {
-          push(
-            manual(pathname, {
-              searchParams: {
-                [SEARCH_PARAMS_KEYS.ACTIVITY_TYPE]: e.target.value,
-              },
-            }),
-            { scroll: false },
-          );
-          refresh();
-        }}
+        onChange={(e) => handleOnChange(SEARCH_PARAMS_KEYS.ACTIVITY_TYPE, e)}
       />
       <Select
         className="max-w-xs"
         optionProps={sortOptionProps}
         placeholder="Sort order"
         selectedKeys={orderType ? [orderType] : []}
-        onChange={(e) => {
-          push(
-            manual(pathname, {
-              searchParams: {
-                [SEARCH_PARAMS_KEYS.ACTIVITY_LOG_ORDER]: e.target.value,
-              },
-            }),
-            { scroll: false },
-          );
-          refresh();
-        }}
+        onChange={(e) =>
+          handleOnChange(SEARCH_PARAMS_KEYS.ACTIVITY_LOG_ORDER, e)
+        }
       />
     </div>
   );

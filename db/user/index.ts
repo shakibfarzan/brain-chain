@@ -1,5 +1,6 @@
 import { Prisma, User } from "@prisma/client";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 
 import {
   emailSchema,
@@ -12,7 +13,10 @@ import prisma from "@/db";
 import { DbReturnType } from "@/types";
 import { auth } from "@/auth";
 import { getCurrentUserId } from "@/db/db.utils";
-import { profileInformationSchema } from "@/app/edit-profile/form-schemas";
+import {
+  passwordsFormSchema,
+  profileInformationSchema,
+} from "@/app/edit-profile/form-schemas";
 
 const userSchema = z.object({
   email: emailSchema,
@@ -41,7 +45,7 @@ export const createUser = async (
 };
 
 export const getCurrentUser = async (): Promise<
-  DbReturnType<Omit<User, "password" | "id" | "isAdmin" | "updatedAt">>
+  DbReturnType<Omit<User, "password" | "id" | "updatedAt">>
 > => {
   const session = await auth();
   const [res, error] = await safePromise(
@@ -55,6 +59,7 @@ export const getCurrentUser = async (): Promise<
         reputation: true,
         createdAt: true,
         emailVerified: true,
+        isAdmin: true,
       },
     }),
   );
@@ -106,14 +111,11 @@ export const currentUserHasPassword = async (): Promise<
   DbReturnType<boolean>
 > => {
   const session = await auth();
-  const [res, err] = await safePromise(
-    prisma.user.findUnique({
-      where: { email: session?.user?.email ?? "" },
-      select: { password: true },
-    }),
+  const { data, dbError } = await getUserPasswordByEmail(
+    session?.user?.email ?? "",
   );
 
-  return { data: !!res?.password, dbError: err };
+  return { data: !!data, dbError };
 };
 
 export const updateUserImage = async (
@@ -155,4 +157,72 @@ export const updateUserInformation = async (
 
     return { data: res, dbError: err };
   } else return { schemaError };
+};
+
+type UpdateUserPassInput = {
+  currentPassword?: string | null;
+  newPassword: string;
+  confirmPassword: string;
+};
+
+export const updateUserPassword = async ({
+  currentPassword,
+  confirmPassword,
+  newPassword,
+}: UpdateUserPassInput): Promise<DbReturnType<User>> => {
+  if (confirmPassword !== newPassword)
+    return {
+      dbError: {
+        message: "Confirm password and New password are not equal!",
+        field: "confirmPassword",
+      },
+    };
+  const session = await auth();
+  const { data: password } = await getUserPasswordByEmail(
+    session?.user?.email ?? "",
+  );
+  const {
+    success,
+    data: parsedData,
+    error: schemaError,
+  } = passwordsFormSchema(!!password).safeParse({
+    currentPassword,
+    confirmPassword,
+    newPassword,
+  });
+
+  if (success) {
+    if (currentPassword && password) {
+      const isEquals = await bcrypt.compare(currentPassword, password);
+
+      if (!isEquals)
+        return {
+          dbError: {
+            message: "Current password is wrong!",
+            field: "currentPassword",
+          },
+        };
+    }
+    const [res, err] = await safePromise(
+      prisma.user.update({
+        where: { email: session?.user?.email ?? "" },
+        data: { password: parsedData?.confirmPassword },
+      }),
+    );
+
+    return { data: res, dbError: err };
+  } else return { schemaError };
+};
+
+const getUserPasswordByEmail = async (
+  email: string,
+): Promise<DbReturnType<string>> => {
+  const [res, err] = await safePromise(
+    prisma.user.findUnique({
+      where: { email },
+      select: { password: true },
+    }),
+  );
+
+  return { data: res?.password ?? undefined, dbError: err };
 };

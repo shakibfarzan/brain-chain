@@ -3,7 +3,7 @@ import { CardBody } from "@nextui-org/card";
 
 import { CardPagePaper } from "@/components/basic";
 import ProfileCardHeader from "@/app/edit-profile/_components/profile-card-header";
-import InformationForm from "@/app/edit-profile/@information/_components/information-form";
+import InformationForm from "@/app/edit-profile/_components/information-form";
 
 const ProfileInformation = () => {
   return (
