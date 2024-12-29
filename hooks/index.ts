@@ -5,3 +5,4 @@ export { default as useAppParams } from "./use-app-params";
 export { default as useReplaceParams } from "./use-replace-params";
 export { default as useFetchData } from "./use-fetch-data";
 export { default as useDelayedValue } from "./use-delayed-value";
+export { default as useIsDarkMode } from "./use-is-dark-mode";

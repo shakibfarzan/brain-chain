@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from "react";
 import { useCustomForm } from "@/components/ui/form/custom-form-provider";
 
 type OnChange<T> = {
-  value: string | number | boolean | null | undefined;
+  value: string | number | boolean | null | undefined | string[];
   onChange: React.ChangeEventHandler<T> | undefined;
   onClear: (() => void) | undefined;
 };

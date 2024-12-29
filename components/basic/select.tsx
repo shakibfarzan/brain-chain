@@ -16,7 +16,6 @@ type Props = Omit<SelectProps, "children"> & {
 
 const Select: React.FC<Props> = ({ optionProps, renderOption, ...rest }) => {
   return (
-    // @ts-ignore
     <NextUISelect
       {...rest}
       aria-label="Select"

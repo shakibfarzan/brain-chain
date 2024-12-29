@@ -1,7 +1,13 @@
+"use client";
 import React from "react";
+import dynamic from "next/dynamic";
 
-const AskQuestionPage = async () => {
-  return <div />;
+const RichTextEditor = dynamic(
+  () => import("@/components/basic/rich-text-editor"),
+  { ssr: false },
+);
+const AskQuestionPage = () => {
+  return <RichTextEditor />;
 };
 
 export default AskQuestionPage;

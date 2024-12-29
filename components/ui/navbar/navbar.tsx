@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import { SearchIcon } from "@nextui-org/shared-icons";
 import { Input } from "@nextui-org/input";
+import Link from "next/link";
 
 import Logo from "@/public/logo.svg";
 import NavItems from "@/components/ui/navbar/nav-items";
@@ -24,14 +25,16 @@ const Navbar = async () => {
       <NavbarContent justify="start">
         <NavbarMenuToggle className="sm:hidden" />
         <NavbarBrand>
-          <Image
-            alt="BrainChain logo"
-            className="sm:w-10 sm:h-10 lg:w-[3.25rem] lg:h-[3.25rem] w-14 h-14 bg-black rounded-3xl dark:bg-primary-50"
-            src={Logo}
-          />
-          <p className="hidden sm:block font-bold text-inherit ml-1">
-            BrainChain
-          </p>
+          <Link className="flex items-center" href="/">
+            <Image
+              alt="BrainChain logo"
+              className="sm:w-10 sm:h-10 lg:w-[3.25rem] lg:h-[3.25rem] w-14 h-14 bg-black rounded-3xl dark:bg-primary-50"
+              src={Logo}
+            />
+            <p className="hidden sm:block font-bold text-inherit ml-1">
+              BrainChain
+            </p>
+          </Link>
         </NavbarBrand>
         <NavItems />
       </NavbarContent>
