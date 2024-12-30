@@ -9,7 +9,7 @@ type SelectProps = React.ComponentProps<typeof Select>;
 
 type Props = Omit<
   SelectProps,
-  "onChange" | "value" | "name" | "labelPlacement"
+  "onChange" | "value" | "name" | "labelPlacement" | "selectedKeys"
 > &
   FormItemProps;
 
@@ -26,7 +26,12 @@ const FormSelect: React.FC<Props> = ({
     <Select
       {...rest}
       {...commonProps}
-      value={commonProps.value as SelectProps["value"]}
+      classNames={{
+        trigger: "bg-default-400/20 dark:bg-default-500/20",
+      }}
+      selectedKeys={commonProps.value as SelectProps["selectedKeys"]}
+      value={undefined}
+      variant="flat"
     />
   );
 };

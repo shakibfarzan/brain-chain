@@ -16,14 +16,13 @@ const RichTextEditor: React.FC<Props> = ({ value, placeholder, onChange }) => {
   const isDarkMode = useIsDarkMode();
   const contentStyle = `
     body {
-      ${isDarkMode ? "background: rgb(0,23,49);" : ""}
-      ${isDarkMode ? "background: linear-gradient(117deg, rgba(0,23,49,1) 34%, rgba(24,8,40,1) 67%)" : ""};
-      font-family: Helvetica,Arial,sans-serif; 
-      font-size: 14px;
+      background: ${isDarkMode ? "rgb(0,23,49)" : "rgb(230,241,254)"};
+      background: ${isDarkMode ? "linear-gradient(117deg, rgba(0,23,49,1) 34%, rgba(24,8,40,1) 67%)" : "linear-gradient(117deg, rgba(230,241,254,1) 34%, rgba(242,234,250,1) 67%)"};
+      font-size: 15px;
     }
     .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
-      color: ${isDarkMode ? "rgba(255,255,255,.5)" : "rgba(34,47,62,.7)"};
-      
+      color: ${isDarkMode ? "rgba(255,255,255,.5)" : "rgba(34,47,62,.5)"};
+      font-weight: 500;
     }
   `;
 
