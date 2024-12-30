@@ -3,12 +3,12 @@ import React from "react";
 import { Button } from "@nextui-org/button";
 
 import { FormInput } from "@/components/ui/form/elements";
-import RichTextEditor from "@/components/basic/rich-text-editor";
 import FormSelect from "@/components/ui/form/elements/form-select";
+import FormRichTextEditor from "@/components/ui/form/elements/form-rich-text-editor";
 
 const AskQuestionForm: React.FC = () => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 w-1/2">
       <FormInput
         isClearable
         isRealTime
@@ -17,7 +17,12 @@ const AskQuestionForm: React.FC = () => {
         label="Title"
         placeholder="Be specific and imagine you're asking a question to another person."
       />
-      <RichTextEditor placeholder="Include all the information someone would need to answer your question." />
+      <FormRichTextEditor
+        isRequired
+        fieldName="description"
+        label="Description"
+        placeholder="Include all the information someone would need to answer your question."
+      />
       <FormSelect
         isRequired
         fieldName="tags"

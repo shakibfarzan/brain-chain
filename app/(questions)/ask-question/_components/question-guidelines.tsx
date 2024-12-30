@@ -13,15 +13,13 @@ const QuestionGuidelines: React.FC = () => {
 
   return (
     <CardPagePaper>
-      <CardHeader>
-        <div className="flex items-center justify-between gap-2 w-full">
-          <H2>Guidelines for Asking a Good Question</H2>
-          <FontAwesomeIcon
-            className="cursor-pointer"
-            icon={faTimesCircle}
-            onClick={() => setShouldShow(false)}
-          />
-        </div>
+      <CardHeader className="flex items-center justify-between gap-2 w-full">
+        <H2>Guidelines for Asking a Good Question</H2>
+        <FontAwesomeIcon
+          className="cursor-pointer"
+          icon={faTimesCircle}
+          onClick={() => setShouldShow(false)}
+        />
       </CardHeader>
       <CardBody>
         <ul className="list-disc ml-4 flex flex-col gap-1">

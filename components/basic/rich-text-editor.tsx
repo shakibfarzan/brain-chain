@@ -9,15 +9,21 @@ type Props = {
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
+  name?: string;
 };
 
-const RichTextEditor: React.FC<Props> = ({ value, placeholder, onChange }) => {
+const RichTextEditor: React.FC<Props> = ({
+  value,
+  placeholder,
+  onChange,
+  name,
+}) => {
   const editorRef = useRef<Editor>(null);
   const isDarkMode = useIsDarkMode();
   const contentStyle = `
     body {
       background: ${isDarkMode ? "rgb(0,23,49)" : "rgb(230,241,254)"};
-      background: ${isDarkMode ? "linear-gradient(117deg, rgba(0,23,49,1) 34%, rgba(24,8,40,1) 67%)" : "linear-gradient(117deg, rgba(230,241,254,1) 34%, rgba(242,234,250,1) 67%)"};
+      background: ${isDarkMode ? "linear-gradient(117deg, rgba(0,23,49,1) 10%, rgba(24,8,40,1) 90%)" : "linear-gradient(117deg, rgba(230,241,254,1) 10%, rgba(242,234,250,1) 90%)"};
       font-size: 15px;
     }
     .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
@@ -63,6 +69,7 @@ const RichTextEditor: React.FC<Props> = ({ value, placeholder, onChange }) => {
         placeholder,
       }}
       initialValue={value}
+      textareaName={name}
       onEditorChange={() => {
         if (editorRef.current) {
           onChange?.(editorRef.current.getContent());

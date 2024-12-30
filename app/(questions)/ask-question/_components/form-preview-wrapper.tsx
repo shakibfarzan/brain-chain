@@ -11,7 +11,7 @@ const FormPreviewWrapper: React.FC = () => {
       action={async (state, payload) => {
         return { ...state };
       }}
-      className="flex flex-col md:flex-row gap-6"
+      className="flex flex-col md:flex-row gap-6 w-full"
     >
       <AskQuestionForm />
       <PreviewQuestion />
