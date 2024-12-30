@@ -1,18 +1,15 @@
 "use client";
 import React from "react";
 
-import AskQuestionForm from "@/app/(questions)/ask-question/_components/ask-question-form";
-import CustomForm from "@/components/ui/form";
+import FormPreviewWrapper from "@/app/(questions)/ask-question/_components/form-preview-wrapper";
+import QuestionGuidelines from "@/app/(questions)/ask-question/_components/question-guidelines";
 
 const AskQuestionPage = () => {
   return (
-    <CustomForm
-      action={async (state, payload) => {
-        return { ...state };
-      }}
-    >
-      <AskQuestionForm />
-    </CustomForm>
+    <div className="flex flex-col gap-6">
+      <QuestionGuidelines />
+      <FormPreviewWrapper />
+    </div>
   );
 };
 
