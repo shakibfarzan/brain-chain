@@ -48,7 +48,7 @@ import { DATETIME_FORMATS } from "@/config/constants";
           }
         }
 
-        // 2. Fetch user's answers and create activity logs
+        // 2. Fetch user's answer and create activity logs
         const answers = await prisma.answer.findMany({
           where: { userId },
         });
@@ -81,7 +81,7 @@ import { DATETIME_FORMATS } from "@/config/constants";
             });
           }
 
-          // Fetch accepted answers
+          // Fetch accepted answer
           if (answer.isAccepted) {
             await prisma.activityLog.create({
               data: {
@@ -95,7 +95,7 @@ import { DATETIME_FORMATS } from "@/config/constants";
           }
         }
 
-        // 3. Fetch user's comments and create activity logs
+        // 3. Fetch user's comment and create activity logs
         const comments = await prisma.comment.findMany({
           where: { userId },
         });
@@ -122,7 +122,7 @@ import { DATETIME_FORMATS } from "@/config/constants";
           },
         });
 
-        // 5. Fetch badges earned
+        // 5. Fetch badge earned
         const badges = await prisma.userBadge.findMany({
           where: { userId },
           include: { badge: true },

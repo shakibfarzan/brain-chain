@@ -5,10 +5,14 @@ import { Button } from "@nextui-org/button";
 import { FormInput } from "@/components/ui/form/elements";
 import FormSelect from "@/components/ui/form/elements/form-select";
 import FormRichTextEditor from "@/components/ui/form/elements/form-rich-text-editor";
+import { useFetchData } from "@/hooks";
+import { fetchAllTags } from "@/app/(questions)/actions";
 
 const AskQuestionForm: React.FC = () => {
+  const { data, isLoading } = useFetchData(fetchAllTags);
+
   return (
-    <div className="flex flex-col gap-6 w-1/2">
+    <div className="flex flex-col gap-6 md:w-1/2 w-full">
       <FormInput
         isClearable
         isRealTime
@@ -24,14 +28,17 @@ const AskQuestionForm: React.FC = () => {
         placeholder="Include all the information someone would need to answer your question."
       />
       <FormSelect
+        isRealTime
         isRequired
         fieldName="tags"
+        isLoading={isLoading}
         label="Tags"
-        optionProps={[
-          { value: "1", label: "1" },
-          { value: "2", label: "2" },
-        ]}
+        optionProps={(data?.data ?? []).map(({ name }) => ({
+          value: name,
+          label: name,
+        }))}
         placeholder="Add up to 5 tags"
+        selectionMode="multiple"
       />
       <div className="w-full flex items-center justify-between">
         <Button variant="bordered">Cancel</Button>

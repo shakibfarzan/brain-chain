@@ -1,6 +1,7 @@
 import React from "react";
 
-import { getAnswersOfCurrentUser } from "@/db/answers";
+import { getAnswersOfCurrentUser } from "../../../../db/answer";
+
 import AnswerCard from "@/app/my-dashboard/@tabs/_components/answer-card";
 import NotFoundResults from "@/app/my-dashboard/@tabs/_components/not-found-results";
 import { PropsWithParams } from "@/types/app-params";

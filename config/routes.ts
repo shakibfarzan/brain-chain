@@ -10,8 +10,8 @@ const AUTH = {
 const MY_DASHBOARD = {
   BASE: "/my-dashboard",
   QUESTIONS: "/my-dashboard/questions",
-  ANSWERS: "/my-dashboard/answers",
-  COMMENTS: "/my-dashboard/comments",
+  ANSWERS: "/my-dashboard/answer",
+  COMMENTS: "/my-dashboard/comment",
   EDIT_PROFILE: "/edit-profile",
 };
 

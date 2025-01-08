@@ -1,10 +1,16 @@
 "use client";
 import React from "react";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@nextui-org/skeleton";
 
-import RichTextEditor from "@/components/basic/rich-text-editor";
 import { FormItemProps } from "@/components/ui/form/form.types";
 import { useCustomForm } from "@/components/ui/form/custom-form-provider";
 import useOnChange from "@/components/ui/form/hooks/use-on-change";
+
+const RichTextEditor = dynamic(
+  () => import("@/components/basic/rich-text-editor"),
+  { ssr: false, loading: () => <Skeleton className="h-[500px] rounded-lg" /> },
+);
 
 type Props = Omit<
   React.ComponentProps<typeof RichTextEditor>,

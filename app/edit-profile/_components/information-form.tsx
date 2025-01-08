@@ -17,7 +17,7 @@ const InformationForm = () => {
     <CustomForm
       action={updateProfileInformationAction}
       className="flex flex-col gap-6"
-      defaultFormValues={{ name: user?.name, bio: user?.bio }}
+      defaultFormValues={{ name: user?.name, bio: user?.bio ?? "" }}
       schema={profileInformationSchema}
       onSuccess={async () => {
         // need snackbar

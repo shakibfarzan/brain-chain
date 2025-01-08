@@ -12,6 +12,7 @@ const useOnChange = <T = any>(
   isRealTime: boolean,
   fieldName: string,
   isClearable = false,
+  isMultiple = false,
 ): OnChange<T> => {
   const {
     realTimeData,
@@ -28,7 +29,10 @@ const useOnChange = <T = any>(
         const currentValue = (e.target as any).value;
 
         if (currentValue !== undefined)
-          setRealTimeData({ ...realTimeData, [fieldName]: currentValue });
+          setRealTimeData({
+            ...realTimeData,
+            [fieldName]: isMultiple ? currentValue.split(",") : currentValue,
+          });
       }
     : undefined;
 

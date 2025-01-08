@@ -1,7 +1,8 @@
 import React from "react";
 import { CardBody, CardHeader } from "@nextui-org/card";
 
-import { getBadgesOfCurrentUser } from "@/db/badges";
+import { getBadgesOfCurrentUser } from "../../../db/badge";
+
 import UserBadge from "@/app/my-dashboard/@badges/_components/user-badge";
 import { CardPagePaper } from "@/components/basic";
 

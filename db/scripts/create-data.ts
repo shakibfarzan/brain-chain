@@ -29,17 +29,17 @@ import prisma from "@/db";
   );
 
   if (tagsErr) {
-    console.error("Error on creating tags", tagsErr);
+    console.error("Error on creating tag", tagsErr);
 
     return;
   }
   console.log(`Created ${createdTags?.count} tags.`);
 
-  // Fetch created tags
+  // Fetch created tag
   const [allTags, fTagsErr] = await safePromise(prisma.tag.findMany());
 
   if (fTagsErr) {
-    console.error("Error on finding tags");
+    console.error("Error on finding tag");
 
     return;
   }
@@ -49,7 +49,7 @@ import prisma from "@/db";
     const questionCount = faker.number.int({ min: 8, max: 15 }); // Each user creates 3-5 questions
 
     for (let i = 0; i < questionCount; i++) {
-      const questionTags = faker.helpers.arrayElements(allTags ?? [], 5); // Randomly pick 3 tags
+      const questionTags = faker.helpers.arrayElements(allTags ?? [], 5); // Randomly pick 3 tag
       const [createdQuestion, cQuestionsErr] = await safePromise(
         prisma.question.create({
           data: {
@@ -125,7 +125,7 @@ import prisma from "@/db";
       );
 
       if (answersOfQErr) {
-        console.error("Error on finding answers of question");
+        console.error("Error on finding answer of question");
 
         return;
       }

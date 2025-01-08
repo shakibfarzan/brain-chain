@@ -19,8 +19,7 @@ const data: Prisma.BadgeCreateManyInput[] = [
   {
     title: "Top Contributor",
     description: "Awarded for reaching 100 upvotes on contributions.",
-    criteria:
-      "Total upvotes across questions, answers, and comments exceed 100.",
+    criteria: "Total upvotes across questions, answer, and comment exceed 100.",
   },
   {
     title: "Popular Question",
@@ -36,8 +35,8 @@ const data: Prisma.BadgeCreateManyInput[] = [
   {
     title: "Tag Specialist",
     description:
-      "Awarded for contributing to a specific tag with 10 questions or answers.",
-    criteria: "User posts 10 questions or answers using the same tag.",
+      "Awarded for contributing to a specific tag with 10 questions or answer.",
+    criteria: "User posts 10 questions or answer using the same tag.",
   },
   {
     title: "Early Bird",
@@ -48,13 +47,13 @@ const data: Prisma.BadgeCreateManyInput[] = [
   },
   {
     title: "Community Helper",
-    description: "Awarded for commenting on 20 different questions or answers.",
-    criteria: "User posts 20 comments.",
+    description: "Awarded for commenting on 20 different questions or answer.",
+    criteria: "User posts 20 comment.",
   },
   {
     title: "Mentor",
-    description: "Awarded for having 10 of your answers accepted by others.",
-    criteria: "10 answers marked as accepted.",
+    description: "Awarded for having 10 of your answer accepted by others.",
+    criteria: "10 answer marked as accepted.",
   },
 ];
 
@@ -64,7 +63,7 @@ const data: Prisma.BadgeCreateManyInput[] = [
   );
 
   if (badgesErr) {
-    console.error("Error on creating badges", badgesErr);
+    console.error("Error on creating badge", badgesErr);
 
     return;
   }
@@ -113,7 +112,7 @@ const data: Prisma.BadgeCreateManyInput[] = [
     );
 
     if (uaErr) {
-      console.error("Error on getting user answers", uaErr);
+      console.error("Error on getting user answer", uaErr);
 
       return;
     }
@@ -241,7 +240,7 @@ const data: Prisma.BadgeCreateManyInput[] = [
       );
 
       if (tagsErr) {
-        console.error("Error on getting count of tags");
+        console.error("Error on getting count of tag");
 
         return;
       }
@@ -293,7 +292,7 @@ const data: Prisma.BadgeCreateManyInput[] = [
       );
 
       if (ucErr) {
-        console.error("Error on getting user comments count", ucErr);
+        console.error("Error on getting user comment count", ucErr);
 
         return;
       }
@@ -336,6 +335,6 @@ const data: Prisma.BadgeCreateManyInput[] = [
         }
       }
     }
-    console.log("All badges created for user", user.name);
+    console.log("All badge created for user", user.name);
   }
 })();
