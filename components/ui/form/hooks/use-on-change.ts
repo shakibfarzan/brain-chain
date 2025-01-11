@@ -31,7 +31,11 @@ const useOnChange = <T = any>(
         if (currentValue !== undefined)
           setRealTimeData({
             ...realTimeData,
-            [fieldName]: isMultiple ? currentValue.split(",") : currentValue,
+            [fieldName]: isMultiple
+              ? currentValue
+                  .split(",")
+                  .filter((value: string) => !!value.length)
+              : currentValue,
           });
       }
     : undefined;

@@ -1,15 +1,37 @@
 "use client";
 import React from "react";
 import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 
-import { FormInput } from "@/components/ui/form/elements";
-import FormSelect from "@/components/ui/form/elements/form-select";
-import FormRichTextEditor from "@/components/ui/form/elements/form-rich-text-editor";
-import { useFetchData } from "@/hooks";
-import { fetchAllTags } from "@/app/(questions)/actions";
+import {
+  FormInput,
+  FormRichTextEditor,
+  FormSelect,
+} from "@/components/ui/form/elements";
+import { AskQuestionCommonProps } from "@/app/(questions)/questions.types";
+import { useCustomForm } from "@/components/ui/form/custom-form-provider";
+import { askQuestionFormAction } from "@/app/(questions)/actions";
 
-const AskQuestionForm: React.FC = () => {
-  const { data, isLoading } = useFetchData(fetchAllTags);
+const AskQuestionForm: React.FC<AskQuestionCommonProps> = ({
+  tags,
+  isLoading,
+}) => {
+  const { back } = useRouter();
+  const { realTimeData } = useCustomForm();
+
+  const onSubmit = async () => {
+    const res = await askQuestionFormAction(
+      { errors: {}, isSuccess: false },
+      realTimeData,
+    );
+
+    if (res.isSuccess) {
+      // snackbar
+      back();
+    } else {
+      // snackbar with error
+    }
+  };
 
   return (
     <div className="flex flex-col gap-6 md:w-1/2 w-full">
@@ -33,16 +55,20 @@ const AskQuestionForm: React.FC = () => {
         fieldName="tags"
         isLoading={isLoading}
         label="Tags"
-        optionProps={(data?.data ?? []).map(({ name }) => ({
-          value: name,
+        optionProps={tags.map(({ name, id }) => ({
+          value: id,
           label: name,
         }))}
         placeholder="Add up to 5 tags"
         selectionMode="multiple"
       />
       <div className="w-full flex items-center justify-between">
-        <Button variant="bordered">Cancel</Button>
-        <Button color="primary">Submit Question</Button>
+        <Button variant="bordered" onClick={back}>
+          Cancel
+        </Button>
+        <Button color="primary" onClick={onSubmit}>
+          Submit Question
+        </Button>
       </div>
     </div>
   );

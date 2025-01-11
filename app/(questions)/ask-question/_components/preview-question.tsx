@@ -1,17 +1,32 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { CardBody, CardHeader } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
 
 import { CardPagePaper, H2, H3 } from "@/components/basic";
 import { useCustomForm } from "@/components/ui/form/custom-form-provider";
+import { AskQuestionCommonProps } from "@/app/(questions)/questions.types";
 
-const PreviewQuestion: React.FC = () => {
+const PreviewQuestion: React.FC<AskQuestionCommonProps> = ({
+  tags,
+  isLoading,
+}) => {
   const { realTimeData } = useCustomForm();
 
   const title = realTimeData["title"];
   const description = realTimeData["description"];
-  const tags = (realTimeData["tags"] ?? []) as string[];
+  const selectedTags = useMemo(
+    () => (realTimeData["tags"] ?? []) as string[],
+    [realTimeData],
+  );
+
+  const tagsName = useMemo(
+    () =>
+      tags
+        .filter((tag) => selectedTags.includes(tag.id))
+        .map((tag) => tag.name),
+    [selectedTags, tags],
+  );
 
   return (
     <CardPagePaper className="w-full md:w-1/2">
@@ -25,7 +40,7 @@ const PreviewQuestion: React.FC = () => {
         <H3>{title}</H3>
         <div dangerouslySetInnerHTML={{ __html: description as string }} />
         <div className="flex items-center flex-wrap gap-2">
-          {tags.map((tag) => (
+          {tagsName.map((tag) => (
             <Chip key={tag} color="warning" size="sm" variant="flat">
               {tag}
             </Chip>

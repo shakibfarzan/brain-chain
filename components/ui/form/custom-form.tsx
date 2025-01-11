@@ -17,7 +17,7 @@ type ChildrenProps = {
 };
 
 type Props = {
-  action: Parameters<ActionState>[0];
+  action?: Parameters<ActionState>[0];
   initialState?: Parameters<ActionState>[1];
   onSuccess?: () => void;
   shouldResetAfterSuccess?: boolean;
@@ -42,10 +42,11 @@ const CustomForm: React.FC<Props> = ({
   ...formProps
 }) => {
   const [state, formAction] = useActionState<FormState, FormData>(
+    //@ts-ignore
     async (state, payload: FormData | null) => {
       if (!payload) return initialState;
 
-      return action(state, payload);
+      return action?.(state, payload);
     },
     initialState,
   );
@@ -54,6 +55,7 @@ const CustomForm: React.FC<Props> = ({
 
   useEffect(
     function effectOnSuccess() {
+      if (!action) return;
       if (state?.isSuccess) {
         startTransition(() => {
           // @ts-ignore
@@ -77,7 +79,7 @@ const CustomForm: React.FC<Props> = ({
       shouldReset={shouldReset}
       state={state}
     >
-      <Form {...formProps} action={formAction}>
+      <Form {...formProps} action={action ? formAction : () => {}}>
         <FormStatusWrapper>{children}</FormStatusWrapper>
       </Form>
     </CustomFormProvider>

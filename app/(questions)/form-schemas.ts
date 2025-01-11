@@ -7,5 +7,5 @@ export const askQuestionFormSchema = z.object({
   description: z
     .string()
     .min(26, "Description must be more than 20 characters!"),
-  tags: z.array(z.string()).min(1),
+  tags: z.array(z.string()).nonempty("Is Required"),
 });

@@ -36,6 +36,7 @@ const FormRichTextEditor: React.FC<Props> = ({
         {isRequired && <span className="text-danger ml-0.5">*</span>}
       </label>
       <RichTextEditor
+        name={fieldName}
         placeholder={placeholder}
         onChange={(v) =>
           setRealTimeData((prev) => ({ ...prev, [fieldName]: v }))
