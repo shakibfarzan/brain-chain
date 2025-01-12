@@ -16,12 +16,11 @@ type Props = Omit<SelectProps, "children"> & {
 
 const Select: React.FC<Props> = ({ optionProps, renderOption, ...rest }) => {
   return (
-    // @ts-ignore
     <NextUISelect
-      {...rest}
       aria-label="Select"
-      classNames={{ popoverContent: "bg-primary-50" }}
       variant="bordered"
+      {...rest}
+      classNames={{ ...rest.classNames, popoverContent: "bg-primary-50" }}
     >
       {optionProps?.map((op) => (
         <SelectItem key={op.value} value={op.value} variant="faded">

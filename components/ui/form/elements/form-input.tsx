@@ -22,7 +22,9 @@ const FormInput: React.FC<Props> = ({
     !!rest.isClearable,
   );
 
-  return <Input {...rest} {...commonProps} />;
+  return (
+    <Input {...rest} {...commonProps} value={commonProps.value as string} />
+  );
 };
 
 export default FormInput;

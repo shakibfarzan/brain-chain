@@ -39,7 +39,7 @@ model User {
 model Question {
   id              String            @id @default(cuid())
   title           String
-  slug            String
+  slug            String            @unique
   description     String
   tags            Tag[]             @relation()
   userId          String
@@ -79,9 +79,9 @@ model Comment {
   content    String
   userId     String
   user       User      @relation(fields: [userId], references: [id])
-  questionId String? // Optional for question comments
+  questionId String? // Optional for question comment
   question   Question? @relation(fields: [questionId], references: [id])
-  answerId   String? // Optional for answer comments
+  answerId   String? // Optional for answer comment
   answer     Answer?   @relation(fields: [answerId], references: [id])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt

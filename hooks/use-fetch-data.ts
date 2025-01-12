@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { safePromise } from "@/utils";
 
@@ -18,7 +18,7 @@ const useFetchData = <T>(
     loadCondition?: boolean;
   },
 ): UseFetchData<T> => {
-  const args = options?.args ?? [];
+  const args = useMemo(() => options?.args ?? [], [options?.args]);
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();

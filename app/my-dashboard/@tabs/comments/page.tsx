@@ -1,6 +1,7 @@
 import React from "react";
 
-import { getCommentsOfCurrentUser } from "@/db/comments";
+import { getCommentsOfCurrentUser } from "../../../../db/comment";
+
 import CommentCard from "@/app/my-dashboard/@tabs/_components/comment-card";
 import NotFoundResults from "@/app/my-dashboard/@tabs/_components/not-found-results";
 import { PropsWithParams } from "@/types/app-params";

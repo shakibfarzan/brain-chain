@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from "react";
 import { useCustomForm } from "@/components/ui/form/custom-form-provider";
 
 type OnChange<T> = {
-  value: string | number | boolean | null | undefined;
+  value: string | number | boolean | null | undefined | string[];
   onChange: React.ChangeEventHandler<T> | undefined;
   onClear: (() => void) | undefined;
 };
@@ -12,6 +12,7 @@ const useOnChange = <T = any>(
   isRealTime: boolean,
   fieldName: string,
   isClearable = false,
+  isMultiple = false,
 ): OnChange<T> => {
   const {
     realTimeData,
@@ -28,7 +29,14 @@ const useOnChange = <T = any>(
         const currentValue = (e.target as any).value;
 
         if (currentValue !== undefined)
-          setRealTimeData({ ...realTimeData, [fieldName]: currentValue });
+          setRealTimeData({
+            ...realTimeData,
+            [fieldName]: isMultiple
+              ? currentValue
+                  .split(",")
+                  .filter((value: string) => !!value.length)
+              : currentValue,
+          });
       }
     : undefined;
 

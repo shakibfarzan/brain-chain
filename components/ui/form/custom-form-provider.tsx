@@ -13,9 +13,14 @@ import * as z from "zod";
 import { FormState, ZodFieldErrors } from "@/components/ui/form/form.types";
 
 type CustomFormContextType = {
-  realTimeData: Record<string, string | number | boolean | null | undefined>;
+  realTimeData: Record<
+    string,
+    string | number | boolean | null | undefined | string[]
+  >;
   setRealTimeData: Dispatch<
-    SetStateAction<Record<string, string | number | boolean | null | undefined>>
+    SetStateAction<
+      Record<string, string | number | boolean | null | undefined | string[]>
+    >
   >;
   errors: ZodFieldErrors;
   setErrors: Dispatch<SetStateAction<ZodFieldErrors>>;

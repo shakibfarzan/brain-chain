@@ -18,7 +18,9 @@ const FormTextarea: React.FC<Props> = ({
 }) => {
   const commonProps = useCommonInputProps(isRealTime, fieldName);
 
-  return <Textarea {...rest} {...commonProps} />;
+  return (
+    <Textarea {...rest} {...commonProps} value={commonProps.value as string} />
+  );
 };
 
 export default FormTextarea;

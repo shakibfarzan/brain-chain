@@ -1,10 +1,11 @@
 import { Comment, Question } from "@prisma/client";
 
+import { getAnswerById } from "../answer";
+
 import { getCurrentUserId } from "@/db/db.utils";
 import { safePromise } from "@/utils";
 import prisma from "@/db";
 import { DbReturnType } from "@/types";
-import { getAnswerById } from "@/db/answers";
 import { PaginatedReturnType } from "@/types/db-return-type";
 
 type GetCommentsOfCurrentUser = Comment & {
